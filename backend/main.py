@@ -5,7 +5,7 @@ from starlette.requests import Request
 import uvicorn 
 from routers.auth import router as authrouter
 from dotenv import load_dotenv 
-from db import Base, engine, SessionLocal
+from db import Base, engine, db_dependency
 from sqlalchemy.orm import Session
 from typing import Annotated
 import os
@@ -44,18 +44,7 @@ app.add_middleware(
 ) 
 
 
-async def get_db():
-    db = SessionLocal()
-    try: 
-        yield db
-    except Exception as e:
-        print("There is a error in database instance: %s" % e)
-        raise HTTPException(status_code=404, detail=f"{e}")
-    finally:
-        db.close()
-        
-        
-db_dependency = Depends(get_db)
+
 # Auth route
 app.include_router(router=authrouter, prefix="/auth")
 

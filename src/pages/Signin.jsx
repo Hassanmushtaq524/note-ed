@@ -5,13 +5,17 @@ import { GoogleLogin } from '@react-oauth/google';
 function Signin() {
     const responseGoogle = async (credential) => { 
         if (credential){ 
-            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/auth/callback?token=${credential}`, { 
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/auth/login`, { 
                 credentials: 'include', 
-                // To cause browsers to send a request with credentials included on both same-origin and cross-origin calls,  
-                // add credentials: 'include' to the init object you pass to the fetch() method. 
+                headers: {
+                    "content-type": "application/json"
+                },
+                method: "POST",
+                body: JSON.stringify({ token: credential })
             });
             
             const data = await response.json();
+            // TODO: remove
             console.log(data)
         } 
     } 
