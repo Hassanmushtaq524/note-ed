@@ -4,6 +4,7 @@ from starlette.middleware.sessions import SessionMiddleware
 from starlette.requests import Request
 import uvicorn 
 from routers.auth import router as authrouter
+from routers.course import router as courserouter
 from dotenv import load_dotenv 
 from db import Base, engine, db_dependency
 from sqlalchemy.orm import Session
@@ -47,6 +48,7 @@ app.add_middleware(
 
 # Auth route
 app.include_router(router=authrouter, prefix="/auth")
+app.include_router(router=courserouter, prefix="/course")
 
 
 # NO LONGER NEEDED
