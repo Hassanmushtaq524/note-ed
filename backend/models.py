@@ -1,4 +1,4 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, URL
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, URL, Enum
 from sqlalchemy.orm import relationship
 from db import Base
 
@@ -9,6 +9,7 @@ class User(Base):
     _id = Column(Integer, primary_key=True, autoincrement=True)
     google_sub = Column(String, unique=True, nullable=False)
     name = Column(String(50), nullable=False)
+    role = Column(Enum('user', 'admin', name='user_roles'), default='user', nullable=False) 
     email = Column(String(120), unique=True, nullable=False)
 
 

@@ -9,6 +9,8 @@ from models import User
 from pydantic import BaseModel
 import os
 from dotenv import load_dotenv
+
+
 load_dotenv()
 
 GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
@@ -17,15 +19,14 @@ GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
 router = APIRouter()
 
 
-class authentication_body(BaseModel):
+class AuthenticationBody(BaseModel):
     token : str
 
 @router.post("/login")
-def authentication(request: Request, data: authentication_body, db: Session = db_dependency):
+def authentication(request: Request, data: AuthenticationBody, db: Session = db_dependency):
     try:
         # Verify the token with Google's API
-        user_data = id_token.verify_oauth2_token(data.token, requests.Request(), GOOGLE_CLIENT_ID)
-
+        user_data = id_token.verify_oauth2_token(data.token, requests.Request(), GOOGLE_CLIENT_ID, clock_skew_in_seconds=10)
         # Extract user infoxs
         user_email = user_data["email"]
         user_name = user_data["name"]
@@ -70,6 +71,8 @@ def authentication(request: Request, data: authentication_body, db: Session = db
 def check_session(request: Request):
     # Check if user session exists
     if request.session.get("user"):
+        # TODO: remove
+        print(request.session.get("user"))
         return {"status": "success", "user": request.session.get("user")}
     else:
         raise HTTPException(status_code=403, detail="Not signed in")
