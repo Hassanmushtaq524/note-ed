@@ -48,6 +48,7 @@ app.add_middleware(
 
 # Auth route
 app.include_router(router=authrouter, prefix="/auth")
+# Course route
 app.include_router(router=courserouter, prefix="/course")
 
 
