@@ -13,10 +13,10 @@ function Signin() {
                 method: "POST",
                 body: JSON.stringify({ token: credential })
             });
-            
-            const data = await response.json();
-            // TODO: remove
-            console.log(data)
+            if (response.ok) {
+                const data = await response.json();
+                alert(data)
+            }
         } 
     } 
 
