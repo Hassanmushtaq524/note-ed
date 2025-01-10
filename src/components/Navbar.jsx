@@ -17,7 +17,7 @@ const links = [
 
 function Navbar() {
   return (
-    <div id="navbar" className="w-full h-fit p-4 flex items-center justify-between font-regular">
+    <div id="navbar" className="fixed w-full h-fit p-4 flex items-center justify-between font-regular">
         <div className="logo">
             <img src={Logo} alt="NotiNotes" />
         </div>

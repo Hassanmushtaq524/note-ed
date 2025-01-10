@@ -22,7 +22,8 @@ module.exports = {
       fontFamily: {
         'black': ['Montserrat-Black', 'Helvetica'],
         'regular': ['Montserrat-Regular', 'Helvetica'],
-        'medium': ['Montserrat-Medium', 'Helvetica']
+        'medium': ['Montserrat-Medium', 'Helvetica'],
+        'thin': ['Montserrat-Thin', 'Helvetica']
       }
     }
   },

@@ -32,18 +32,26 @@ code {
   src: url("./assets/fonts/Montserrat-Medium.ttf");
 }
 
+@font-face {
+  font-family: "Montserrat-Thin";
+  src: url("./assets/fonts/Montserrat-Thin.ttf");
+}
+
 
 @layer base {
   h1 {
-    @apply text-7xl font-bold leading-tight text-black;
+    @apply text-5xl font-black leading-tight text-black;
   }
   h2 {
-    @apply text-3xl font-semibold leading-snug text-black;
+    @apply text-3xl font-medium leading-snug text-black;
   }
   h3 {
     @apply text-2xl font-medium leading-normal text-black;
   }
+  h4 {
+    @apply text-xl font-medium leading-normal text-black;
+  }
   p {
-    @apply text-base leading-relaxed text-black;
+    @apply text-base font-medium leading-relaxed text-black;
   }
 }
