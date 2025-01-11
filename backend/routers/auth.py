@@ -1,4 +1,5 @@
 from fastapi import APIRouter, HTTPException
+from fastapi.responses import JSONResponse
 from starlette.requests import Request 
 from sqlalchemy.orm import Session
 from db import db_dependency
@@ -45,11 +46,13 @@ def authentication(request: Request, data: AuthenticationBody, db: Session = db_
             db.refresh(new_user)
             user = new_user
 
-        # Store user info in session (if needed)
+
+        # Store user info in session
         request.session["user"] = {
             "email": user.email, 
             "name": user.name
         }
+
 
         # Return the authenticated user's
         return {
@@ -61,9 +64,21 @@ def authentication(request: Request, data: AuthenticationBody, db: Session = db_
             "token": data.token,
         }
     except Exception as e:
-        # TODO: remove
-        print(e)
-        raise HTTPException(status_code=401, detail="Unauthorized")
+        return JSONResponse(status_code=401, content={"detail": "Unauthorized"})
+
+
+
+
+@router.post("/logout")
+def logout_user(request: Request, db: Session = db_dependency):
+    try:
+        if request.session.get("user"): 
+            del request.session["user"] 
+            return {"status": "success", "detail": "Logged out successfully"}
+        else:
+            return JSONResponse(status_code=400, content={"detail": "No user session found"})
+    except Exception as e:
+        return JSONResponse(status_code=500, content={"detail": "Internal server error"})
 
 
 
@@ -75,4 +90,4 @@ def check_session(request: Request):
         print(request.session.get("user"))
         return {"status": "success", "user": request.session.get("user")}
     else:
-        raise HTTPException(status_code=403, detail="Not signed in")
+        return {"status": "success", "detail": "User not found"}

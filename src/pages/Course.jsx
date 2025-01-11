@@ -4,8 +4,10 @@ function Course() {
     const { id } = useParams()
     
     return (
-        <div>Course {id}</div>
+        <div id="course" className="w-full h-screen flex items-center justify-center ">
+            Course {id}
+        </div>
     )
 }
 
-export default Course
+export default Course;

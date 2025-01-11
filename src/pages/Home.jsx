@@ -2,19 +2,19 @@ import React, { useEffect, useState } from 'react'
 import Dropdown from '../components/Dropdown';
 import { useNavigate } from 'react-router-dom';
 
-
-
 function Home() {
+    // TODO: make courseOptions into setCourse and a context
     const [courseOptions, setCourseOptions] = useState([])
     const [courseCode, setCourseCode] = useState(null);
     const [courseSemester, setCourseSemester] = useState(null);
     const [courseYear, setCourseYear] = useState(null);
-    const [error, setError] = useState(null);
     const navigate = useNavigate();
 
 
+    /**
+     * Get all the course information from db
+     */
     const getCourseOptions = async () => {
-        // GET all course options 
         const url = `${process.env.REACT_APP_BACKEND_URL}/course/`;
         const response = await fetch(url, {
             method: "GET"
@@ -27,26 +27,38 @@ function Home() {
     }
     
 
+    /**
+     * Search the course options and get the course
+     */
     const getCourseId = async () => {
         if (!courseCode || !courseSemester || !courseYear) {
-            setError("Please select all fields")
+            alert("Please select all fields")
         } else {
+            let found = false;
             for (let i = 0; i < courseOptions.length; i++) {
                 if (
                     courseOptions[i].course_code == courseCode &&
                     courseOptions[i].year == courseYear && 
                     courseOptions[i].semester == courseSemester 
                 ) {
+                    found = true;
                     navigate(`/course/${courseOptions[i]._id}`)
                 }
             }
+            if (!found) { alert("No course information found") }
+            setCourseCode(null);
+            setCourseSemester(null);
+            setCourseYear(null);
         }
     }
 
 
+
+    /**
+     * On mount
+     */
     useEffect(() => {
         try {
-            setError(null);
             getCourseOptions();
         } catch (error) {
             console.log(error);
@@ -80,7 +92,6 @@ function Home() {
                     <btn className="p-2 bg-primary rounded-xl text-white font-black w-fit" onClick={getCourseId}>
                         FIND NOTES
                     </btn>
-                    {error && <p>{error}</p>}
                 </div>
                 <div className="row-start-2 flex flex-col items-end justify-end">
                     <h4>CONTRIBUTE TO NOTES</h4>
