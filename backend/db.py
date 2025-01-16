@@ -9,7 +9,7 @@ load_dotenv()
 DB_PATH = os.getenv("DB_PATH")
 
 
-engine = create_engine(DB_PATH)
+engine = create_engine(DB_PATH, pool_recycle=1800)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 

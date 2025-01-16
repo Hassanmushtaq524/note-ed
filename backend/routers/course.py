@@ -84,6 +84,8 @@ def get_all_courses(request: Request, db: Session = db_dependency):
             "courses": courses
         }
     except Exception as e:
+        # TODO: remove
+        print(e)
         return JSONResponse(status_code=500, content={ "detail": "Internal Server Error" })
     
 
@@ -95,17 +97,19 @@ CourseContext, with course, setCourse(course._id), topic, setTopic(topic._id), t
 maybe to open the course itself, noteList, setNoteList()
 
 GET /course/{course._id} -
-# gets all the topcis for the selected course
+# gets all the notes for the selected course
 # no auth
 # returns { course sem, year, code, topic id name list }
 
 POST /course/{course._id} -
-# Add a topic to the course
+# Add a note to the course
 # body { name }
 # auth
 # admin
 # returns { topic id name list }
 
+
+----- FOR NOW, NOT USING
 POST /course/{course._id}/topic 
 # Sets up the topics for the selected course
 # auth
