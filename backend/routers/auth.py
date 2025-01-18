@@ -64,7 +64,7 @@ def authentication(request: Request, data: AuthenticationBody, db: Session = db_
             "token": data.token,
         }
     except Exception as e:
-        return JSONResponse(status_code=401, content={"detail": "Unauthorized"})
+        return JSONResponse(status_code=500, content={"detail": "Internal server error"})
 
 
 

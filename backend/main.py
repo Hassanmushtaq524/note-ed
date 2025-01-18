@@ -5,6 +5,7 @@ from starlette.requests import Request
 import uvicorn 
 from routers.auth import router as authrouter
 from routers.course import router as courserouter
+from routers.note import router as noterouter
 from dotenv import load_dotenv 
 from db import Base, engine, db_dependency
 from sqlalchemy.orm import Session
@@ -34,8 +35,8 @@ if not SECRET_KEY:
 app = FastAPI() 
 origins = [ 
 	FRONTEND_URL
-] 
-app.add_middleware(SessionMiddleware, secret_key=SECRET_KEY) 
+]
+ 
 app.add_middleware( 
 	CORSMiddleware, 
 	allow_origins=origins, 
@@ -43,6 +44,7 @@ app.add_middleware(
 	allow_methods=["*"], 
 	allow_headers=["*"], 
 ) 
+app.add_middleware(SessionMiddleware, secret_key=SECRET_KEY) 
 
 
 
@@ -50,7 +52,8 @@ app.add_middleware(
 app.include_router(router=authrouter, prefix="/auth")
 # Course route
 app.include_router(router=courserouter, prefix="/course")
-
+# Note route
+app.include_router(router=noterouter, prefix="/note")
 
 # NO LONGER NEEDED
 @app.post("/setup_db")

@@ -8,8 +8,9 @@ from pydantic import BaseModel
 import os
 from dotenv import load_dotenv
 from typing import Annotated
-from aws import upload_to_s3
+from helpers.aws import upload_to_s3
 from helpers.extract import extract_text_from_images, pdf_to_images
+from helpers.user_dependency import auth_required, admin_required
 load_dotenv()
 
 GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
@@ -17,24 +18,6 @@ GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
 router = APIRouter()
 
 
- 
-def admin_required(request: Request, db: Session = db_dependency):
-    if not request.session["user"]:
-        raise HTTPException(status_code=403, detail="Forbidden")
-    current_user = request.session["user"]
-    user = db.query(User).filter(User.email == current_user["email"]).first()
-    if user.role != "admin":
-        raise HTTPException(status_code=403, detail="Forbidden")
-    return user
-
-
-
-def auth_required(request: Request, db: Session = db_dependency):
-    if not request.session.get("user"):
-        raise HTTPException(status_code=403, detail="Forbidden")
-    current_user = request.session["user"]
-    user = db.query(User).filter(User.email == current_user["email"]).first()
-    return user
 
 
  
@@ -52,7 +35,7 @@ def add_course(request: Request, data: AddCourseBody, db: Session = db_dependenc
         # if it is not then raise error, otherwise we try adding course
         course = db.query(Course).filter(Course.course_code == data.course_code).first()
         if course:
-            raise HTTPException(status_code=403, detail="Forbidden")
+            raise HTTPException(status_code=400, detail="Course already exists")
 
         new_course = Course(
             course_code=data.course_code,
@@ -62,13 +45,15 @@ def add_course(request: Request, data: AddCourseBody, db: Session = db_dependenc
 
         db.add(new_course)
         db.commit()
-
+        db.refresh(new_course)
         return {
             "status": "success",
             "course": new_course.course_code
         }
+    except HTTPException as http_exc:
+        return JSONResponse(status_code=http_exc.status_code, content=http_exc.detail)
     except Exception as e:
-        raise HTTPException(status_code=500, detail="Internal server error")
+        return JSONResponse(status_code=500)
 
 
 
@@ -83,8 +68,10 @@ def get_all_courses(request: Request, db: Session = db_dependency):
             "status": "success",
             "courses": courses
         }
+    except HTTPException as http_exc:
+        return JSONResponse(status_code=http_exc.status_code, content=http_exc.detail)
     except Exception as e:
-        raise HTTPException(status_code=500, detail="Internal server error")
+        return JSONResponse(status_code=500)
     
 
 
@@ -136,22 +123,35 @@ def get_all_notes(course_id: int, request: Request, db: Session = db_dependency)
     try:
         course_info = db.query(Course).filter(Course._id == course_id).first()
         if not course_info:
-            return JSONResponse(status_code=404, content={ "detail": "Content not found" })
+            raise HTTPException(status_code=404, detail="Content not found")
         notes_list = db.query(Note).filter(Note.course_id == course_id).all()
+
+        
+        return_list = []
+        for note in notes_list:
+            ret = db.query(User).filter(User._id == note.user_id).first()
+            return_list.append({
+                '_id': note._id,
+                'name': note.name,
+                'pdf_url': note.pdf_url,
+                'type': note.type,
+                'username': ret.name,
+                'course_id': note.course_id
+            })
+            
+
         return {
             "status": "success",
             "course": course_info,
-            "notes": notes_list
+            "notes": return_list
         }
+    except HTTPException as http_exc:
+        return JSONResponse(status_code=http_exc.status_code, content=http_exc.detail)
     except Exception as e:
-        #TODO: remove
-        print(e)
-        return JSONResponse(status_code=500, content={ "detail": "Internal Server Error" })
+        return JSONResponse(status_code=500)
+    
     
 
-
-class AddNoteBody(BaseModel):
-    name: str
 
 @router.post("/{course_id}")
 async def add_note(course_id: int, file: Annotated[UploadFile, File()], request: Request, db: Session = db_dependency, user: User = Depends(auth_required)):
@@ -161,12 +161,12 @@ async def add_note(course_id: int, file: Annotated[UploadFile, File()], request:
     try:
         # TODO: stop any inappropriate things
         if file.content_type != "application/pdf":
-            return JSONResponse(status_code=400, content={ "detail": "Incorrect file format" })
+            raise HTTPException(status_code=400, detail="Incorrect file format")
         
         # we need to save it to aws
         pdf_url = await upload_to_s3(file)
         if not pdf_url:
-            return JSONResponse(status_code=400, content={ "detail": "Unable to upload s3" })
+             raise HTTPException(status_code=400, detail="Unable to upload to s3")
         
         new_note = Note(name=file.filename, user_id=user._id, course_id=course_id, pdf_url=pdf_url)
         db.add(new_note)
@@ -176,42 +176,8 @@ async def add_note(course_id: int, file: Annotated[UploadFile, File()], request:
             "status": "success",
             "note": new_note
         }
+    except HTTPException as http_exc:
+        return JSONResponse(status_code=http_exc.status_code, content=http_exc.detail)
     except Exception as e:
-        return JSONResponse(status_code=500, content={ "detail": "Internal Server Error" })
+        return JSONResponse(status_code=500)
         
-
-
-# @router.post("/testing/{course_id}/topic")
-# async def create_topics_and_add_notes(course_id: int, 
-#                                 file: Annotated[UploadFile, File()], 
-#                                 request: Request, 
-#                                 db: Session = db_dependency, 
-#                                 user: User = Depends(auth_required)):
-    
-#     """
-#     Analyze the notes pdf, separate the pages, and create relevant topics
-#     """
-#     try:
-#         found_topic = db.Query(Topic).filter(Topic.course_id == course_id).first()
-#         if found_topic:
-#             return JSONResponse(status_code=400, content={ "detail": "Course already has topics" })
-        
-#         # Extract the pdf
-#         if file.content_type != "application/pdf":
-#             return JSONResponse(status_code=400, content={ "detail": "Incorrect file format" })
-        
-#         images = await pdf_to_images(file)
-#         pdf_text = await extract_text_from_images(images)
-#         # Analyze it to get relevant topics
-#         # Mark which pages correspond to which topics
-#         # Then separate those pages
-#         # Create the topics
-#         # TODO: remove
-#         return {
-#             "file": file,
-#             "text": pdf_text
-#         }
-#     except Exception as e:
-#         #TODO: remove
-#         print(e)
-#         return JSONResponse(status_code=500, content={ "detail": "Internal Server Error" })
