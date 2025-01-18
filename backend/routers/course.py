@@ -23,13 +23,12 @@ router = APIRouter()
  
 class AddCourseBody(BaseModel):
     course_code: str
-    semester: str
-    year: int
+    name: str
  
 @router.post("/")
 def add_course(request: Request, data: AddCourseBody, db: Session = db_dependency, admin: User = Depends(admin_required)):
     """
-    Adds a course by its course_code, semester and year. ADMIN required.
+    Adds a course by its course_code and name. ADMIN required.
     """
     try:
         # if it is not then raise error, otherwise we try adding course
@@ -39,8 +38,7 @@ def add_course(request: Request, data: AddCourseBody, db: Session = db_dependenc
 
         new_course = Course(
             course_code=data.course_code,
-            semester=data.semester,
-            year=data.year
+            name=data.name
         )
 
         db.add(new_course)
@@ -48,7 +46,7 @@ def add_course(request: Request, data: AddCourseBody, db: Session = db_dependenc
         db.refresh(new_course)
         return {
             "status": "success",
-            "course": new_course.course_code
+            "course": new_course
         }
     except HTTPException as http_exc:
         return JSONResponse(status_code=http_exc.status_code, content=http_exc.detail)

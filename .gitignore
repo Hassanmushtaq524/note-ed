@@ -34,3 +34,4 @@ out/
 .env
 .env.*
 backend/app/__pycache__
+backend/alembic.ini
