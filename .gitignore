@@ -35,3 +35,5 @@ out/
 .env.*
 backend/app/__pycache__
 backend/alembic.ini
+backend/raw_course_data.csv
+backend/helpers/db_test.py
