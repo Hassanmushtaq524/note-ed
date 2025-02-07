@@ -6,8 +6,6 @@ function Home() {
     // TODO: make courseOptions into setCourse and a context
     const [courseOptions, setCourseOptions] = useState([])
     const [courseCode, setCourseCode] = useState(null);
-    const [courseSemester, setCourseSemester] = useState(null);
-    const [courseYear, setCourseYear] = useState(null);
     const navigate = useNavigate();
 
 
@@ -31,15 +29,13 @@ function Home() {
      * Search the course options and get the course
      */
     const getCourseId = async () => {
-        if (!courseCode || !courseSemester || !courseYear) {
-            alert("Please select all fields")
+        if (!courseCode) {
+            alert("Please select the course")
         } else {
             let found = false;
             for (let i = 0; i < courseOptions.length; i++) {
                 if (
-                    courseOptions[i].course_code == courseCode &&
-                    courseOptions[i].year == courseYear && 
-                    courseOptions[i].semester == courseSemester 
+                    courseOptions[i].course_code == courseCode
                 ) {
                     found = true;
                     navigate(`/course/${courseOptions[i]._id}`)
@@ -47,8 +43,6 @@ function Home() {
             }
             if (!found) { alert("No course information found") }
             setCourseCode(null);
-            setCourseSemester(null);
-            setCourseYear(null);
         }
     }
 
@@ -78,16 +72,6 @@ function Home() {
                               options={courseOptions.map(item => item.course_code)} 
                               value={courseCode} 
                               setValue={setCourseCode}
-                    />
-                    <Dropdown name="SEMESTER" 
-                              options={[...new Set(courseOptions.map(item => item.semester))]}
-                              value={courseSemester} 
-                              setValue={setCourseSemester}
-                    />
-                    <Dropdown name="YEAR" 
-                              options={[...new Set(courseOptions.map(item => item.year))]}
-                              value={courseYear} 
-                              setValue={setCourseYear}
                     />
                     <btn className="p-2 bg-primary rounded-xl text-white font-black w-fit" onClick={getCourseId}>
                         FIND NOTES

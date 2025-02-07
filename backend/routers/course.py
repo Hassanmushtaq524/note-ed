@@ -19,8 +19,6 @@ router = APIRouter()
 
 
 
-
- 
 class AddCourseBody(BaseModel):
     course_code: str
     name: str
@@ -48,10 +46,8 @@ def add_course(request: Request, data: AddCourseBody, db: Session = db_dependenc
             "status": "success",
             "course": new_course
         }
-    except HTTPException as http_exc:
-        return JSONResponse(status_code=http_exc.status_code, content=http_exc.detail)
     except Exception as e:
-        return JSONResponse(status_code=500)
+        return JSONResponse(status_code=500, content="Internal server error")
 
 
 
@@ -66,10 +62,9 @@ def get_all_courses(request: Request, db: Session = db_dependency):
             "status": "success",
             "courses": courses
         }
-    except HTTPException as http_exc:
-        return JSONResponse(status_code=http_exc.status_code, content=http_exc.detail)
     except Exception as e:
-        return JSONResponse(status_code=500)
+        return JSONResponse(status_code=500, content="Internal server error")
+
     
 
 
@@ -143,10 +138,9 @@ def get_all_notes(course_id: int, request: Request, db: Session = db_dependency)
             "course": course_info,
             "notes": return_list
         }
-    except HTTPException as http_exc:
-        return JSONResponse(status_code=http_exc.status_code, content=http_exc.detail)
     except Exception as e:
-        return JSONResponse(status_code=500)
+        return JSONResponse(status_code=500, content="Internal server error")
+
     
     
 
@@ -174,8 +168,7 @@ async def add_note(course_id: int, file: Annotated[UploadFile, File()], request:
             "status": "success",
             "note": new_note
         }
-    except HTTPException as http_exc:
-        return JSONResponse(status_code=http_exc.status_code, content=http_exc.detail)
     except Exception as e:
-        return JSONResponse(status_code=500)
+        return JSONResponse(status_code=500, content="Internal server error")
+
         

@@ -18,6 +18,8 @@ async def get_db():
     db = SessionLocal()
     try: 
         yield db
+    except HTTPException as http_exc:
+        raise http_exc
     except Exception as e:
         print("There is a error in database instance: %s" % e)
         raise HTTPException(status_code=404, detail=f"{e}")

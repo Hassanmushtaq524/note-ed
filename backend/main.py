@@ -1,5 +1,6 @@
 from fastapi import FastAPI, HTTPException, Depends
 from fastapi.middleware.cors import CORSMiddleware 
+from fastapi.responses import JSONResponse 
 from starlette.middleware.sessions import SessionMiddleware 
 from starlette.requests import Request
 import uvicorn 
@@ -47,7 +48,6 @@ app.add_middleware(
 app.add_middleware(SessionMiddleware, secret_key=SECRET_KEY) 
 
 
-
 # Auth route
 app.include_router(router=authrouter, prefix="/auth")
 # Course route
@@ -55,16 +55,6 @@ app.include_router(router=courserouter, prefix="/course")
 # Note route
 app.include_router(router=noterouter, prefix="/note")
 
-# NO LONGER NEEDED
-@app.post("/setup_db")
-def setup_database(db: Session = db_dependency):
-    try:
-        # Create all tables in the database
-        Base.metadata.create_all(bind=engine)
-        return {"message": "Database setup completed."}
-    except Exception as e:
-        logging.error(f"Error setting up database: {e}")
-        raise HTTPException(status_code=500, detail="Database setup failed.")
     
 
 if __name__ == "__main__": 
