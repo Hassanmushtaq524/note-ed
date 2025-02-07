@@ -46,6 +46,8 @@ def add_course(request: Request, data: AddCourseBody, db: Session = db_dependenc
             "status": "success",
             "course": new_course
         }
+    except HTTPException as http_exc: 
+        raise http_exc
     except Exception as e:
         return JSONResponse(status_code=500, content="Internal server error")
 
@@ -62,49 +64,34 @@ def get_all_courses(request: Request, db: Session = db_dependency):
             "status": "success",
             "courses": courses
         }
+    except HTTPException as http_exc: 
+        raise http_exc
     except Exception as e:
         return JSONResponse(status_code=500, content="Internal server error")
 
     
 
-
-"""
-TODO
-On the frontend, I have 
-CourseContext, with course, setCourse(course._id), topic, setTopic(topic._id), topicList, setTopicList(), setNote(Note._id) which
-maybe to open the course itself, noteList, setNoteList()
-
-GET /course/{course._id} -
-# gets all the notes for the selected course
-# no auth
-# returns { course sem, year, code, topic id name list }
-
-POST /course/{course._id} -
-# Add a note to the course
-# body { name }
-# auth
-# returns { topic id name list }
-
-
------ FOR NOW, NOT USING
-POST /course/{course._id}/topic 
-# Sets up the topics for the selected course
-# auth
-# body { file data } 
-# returns { course id, topic id name list }
-
-GET /course/topic/{topic._id} -
-# Gets all the notes for the selected topic
-# no auth
-# returns { topic id, notes id url name username list }
-
-POST /course/topic/{topic._id} -
-# Add notes to a topic
-# auth
-# body { name }
-# returns { added note id, pdf url, name, username }
-
-"""
+@router.delete("/{course_id}")
+def delete_course(course_id: int, db: Session = db_dependency, admin: User = Depends(admin_required)):
+    """
+    Delete a course. ADMIN required.
+    """
+    try:
+        course = db.query(Course).filter(Course._id == course_id).first()
+        if not course:
+            raise HTTPException(status_code=404)
+        
+        db.delete(course)
+        db.commit()
+        
+        return {
+            "status": "success",
+            "message": f"Course {course.course_code} deleted successfully"
+        }
+    except HTTPException as http_exc: 
+        raise http_exc
+    except Exception as e:
+        return JSONResponse(status_code=500, content="Internal server error")
 
 
 
@@ -116,7 +103,7 @@ def get_all_notes(course_id: int, request: Request, db: Session = db_dependency)
     try:
         course_info = db.query(Course).filter(Course._id == course_id).first()
         if not course_info:
-            raise HTTPException(status_code=404, detail="Content not found")
+            raise HTTPException(status_code=404)
         notes_list = db.query(Note).filter(Note.course_id == course_id).all()
 
         
@@ -138,29 +125,32 @@ def get_all_notes(course_id: int, request: Request, db: Session = db_dependency)
             "course": course_info,
             "notes": return_list
         }
+    except HTTPException as http_exc: 
+        raise http_exc
     except Exception as e:
         return JSONResponse(status_code=500, content="Internal server error")
 
-    
-    
 
 
-@router.post("/{course_id}")
-async def add_note(course_id: int, file: Annotated[UploadFile, File()], request: Request, db: Session = db_dependency, user: User = Depends(auth_required)):
+@router.post("/{course_id}/{note_type}")
+async def add_note(course_id: int, note_type: str, file: Annotated[UploadFile, File()], request: Request, db: Session = db_dependency, user: User = Depends(auth_required)):
     """
     Add the notes uploaded by the authenticated user to AWS and save the url to the db for access
     """
     try:
-        # TODO: stop any inappropriate things
+        # TODO: limit uploads
         if file.content_type != "application/pdf":
             raise HTTPException(status_code=400, detail="Incorrect file format")
+        course_info = db.query(Course).filter(Course._id == course_id).first()
+        if not course_info:
+            raise HTTPException(status_code=404)
         
         # we need to save it to aws
         pdf_url = await upload_to_s3(file)
         if not pdf_url:
              raise HTTPException(status_code=400, detail="Unable to upload to s3")
         
-        new_note = Note(name=file.filename, user_id=user._id, course_id=course_id, pdf_url=pdf_url)
+        new_note = Note(name=file.filename, user_id=user._id, course_id=course_id, pdf_url=pdf_url, type=note_type)
         db.add(new_note)
         db.commit()
         db.refresh(new_note)
@@ -168,7 +158,10 @@ async def add_note(course_id: int, file: Annotated[UploadFile, File()], request:
             "status": "success",
             "note": new_note
         }
+    except HTTPException as http_exc: 
+        raise http_exc
     except Exception as e:
+        print(e)
         return JSONResponse(status_code=500, content="Internal server error")
 
         

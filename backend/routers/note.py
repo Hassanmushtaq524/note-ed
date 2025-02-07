@@ -24,14 +24,14 @@ def delete_note(request: Request, note_id: int, db: Session = db_dependency, use
         note = db.query(Note).filter(Note._id == note_id).first()
         
         if not note:
-            raise HTTPException(status_code=404, detail="Content not found")
+            raise HTTPException(status_code=404)
         if note.user_id != user._id:
-            raise HTTPException(status_code=403, detail="Forbidden")
+            raise HTTPException(status_code=403)
         
         s3_key = note.pdf_url.split("/")[-1]
         s3_key = f"uploads/{s3_key}"
         if not delete_from_s3(s3_key):
-            raise HTTPException(status_code=400, detail="An error occurred")
+            raise HTTPException(status_code=400)
         
         db.delete(note)
         db.commit()
@@ -40,6 +40,6 @@ def delete_note(request: Request, note_id: int, db: Session = db_dependency, use
             "status": "success"
         }
     except HTTPException as http_exc:
-        return JSONResponse(status_code=http_exc.status_code, content=http_exc.detail)
+        raise http_exc
     except Exception as e:
         return JSONResponse(status_code=500)
