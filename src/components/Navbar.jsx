@@ -18,7 +18,7 @@ const links = [
 
 
 
-function Navbar() { 
+function Navbar({ mobileView, ...rest }) { 
     const { user, handleLogout } = useAuth();
     const navigate = useNavigate();
 
@@ -32,7 +32,7 @@ function Navbar() {
     return (
         <div id="navbar" className="fixed w-full h-fit p-4 flex items-center justify-between font-regular">
             <div className="logo cursor-pointer" onClick={() => navigate("/")}>
-                <img src={Logo} alt="NotiNotes"  />
+                <img src={Logo} alt="NotiNotes" className='md:w-fit min-w-[10rem]' />
             </div>
             <div className="right-container
                             flex gap-12 items-center justify-around">

@@ -6,6 +6,7 @@ function Home() {
     // TODO: make courseOptions into setCourse and a context
     const [courseOptions, setCourseOptions] = useState([])
     const [courseCode, setCourseCode] = useState(null);
+    const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
 
@@ -14,6 +15,7 @@ function Home() {
      */
     const getCourseOptions = async () => {
         const url = `${process.env.REACT_APP_BACKEND_URL}/course/`;
+        setLoading(true);
         const response = await fetch(url, {
             method: "GET"
         })
@@ -22,6 +24,7 @@ function Home() {
         }
         const data = await response.json();
         setCourseOptions(data.courses);
+        setLoading(false);
     }
     
 
@@ -31,19 +34,20 @@ function Home() {
     const getCourseId = async () => {
         if (!courseCode) {
             alert("Please select the course")
-        } else {
-            let found = false;
-            for (let i = 0; i < courseOptions.length; i++) {
-                if (
-                    courseOptions[i].course_code == courseCode
-                ) {
-                    found = true;
-                    navigate(`/course/${courseOptions[i]._id}`)
-                }
+            return;
+        } 
+        let found = false;
+        for (let i = 0; i < courseOptions.length; i++) {
+            if (
+                courseOptions[i].course_code == courseCode
+            ) {
+                found = true;
+                navigate(`/course/${courseOptions[i]._id}`)
             }
-            if (!found) { alert("No course information found") }
-            setCourseCode(null);
         }
+        if (!found) { alert("No course information found") }
+        setCourseCode(null);
+    
     }
 
 
@@ -61,21 +65,30 @@ function Home() {
 
 
     return (
-        <div id="home" className="w-full h-screen flex items-center justify-center ">
+        <div id="home" className="w-full h-dvh flex items-center justify-center ">
 
-            <div className="container w-[80%] h-fit grid grid-cols-2 grid-rows-2 col-span-1 gap-8">
+            <div className="container w-[80%] h-fit flex flex-col md:grid md:grid-cols-2 md:grid-rows-2 md:col-span-1 gap-24">
                 <div>
                     <h1>ALL YOUR NOTES FOR <span className="text-primary">OWU</span> CLASSES IN ONE PLACE</h1>
                 </div>
                 <div className="row-start-2 flex flex-col items-start justify-end gap-6">
-                    <Dropdown name="COURSE CODE" 
-                              options={courseOptions.map(item => item.course_code)} 
-                              value={courseCode} 
-                              setValue={setCourseCode}
-                    />
-                    <btn className="p-2 bg-primary rounded-xl text-white font-black w-fit" onClick={getCourseId}>
-                        FIND NOTES
-                    </btn>
+                    {
+                        loading ? 
+                        <>
+                        <h3 className="text-dark-gray">Fetching course information . . .</h3>
+                        </>
+                        :
+                        <>
+                            <Dropdown name="COURSE CODE" 
+                                    options={courseOptions.map(item => item.course_code)} 
+                                    value={courseCode} 
+                                    setValue={setCourseCode}
+                            />
+                            <btn className="p-2 bg-primary rounded-xl text-white font-black w-fit" onClick={getCourseId}>
+                                FIND NOTES
+                            </btn>
+                        </>
+                    }
                 </div>
                 <div className="row-start-2 flex flex-col items-end justify-end">
                     <h4>CONTRIBUTE TO NOTES</h4>

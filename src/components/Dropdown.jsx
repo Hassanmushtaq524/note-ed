@@ -6,8 +6,7 @@ import downArrow from "../assets/images/down-arrow.svg";
 /**
  * @returns Dropdown component
  */
-function Dropdown(props) {
-    const { name , options, value, setValue } = props;
+function Dropdown({ name , options, value, setValue, ...rest }) {
     const [isOpen, setIsOpen] = useState(false);
 
     
