@@ -61,3 +61,26 @@ async def upload_to_s3(file: UploadFile):
         return None
     except NoCredentialsError:
         return None
+    
+
+def delete_from_s3(s3_key: str) -> bool:
+    """
+    Delete an object from an S3 bucket.
+
+    :param s3_key: The S3 key of the object to delete.
+    :return: True if the object was deleted, else False.
+    """
+    s3_client = boto3.client(
+        "s3",
+        aws_access_key_id=AWS_ACCESS_KEY,
+        aws_secret_access_key=AWS_SECRET_KEY,
+    )
+    
+    try:
+        s3_client.delete_object(Bucket=BUCKET_NAME, Key=s3_key)
+        return True
+    except Exception as e:
+        print(f"Error deleting object: {e}")
+        return False
+    
+    

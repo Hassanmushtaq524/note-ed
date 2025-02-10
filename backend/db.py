@@ -9,7 +9,7 @@ load_dotenv()
 DB_PATH = os.getenv("DB_PATH")
 
 
-engine = create_engine(DB_PATH)
+engine = create_engine(DB_PATH, pool_recycle=1800)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
@@ -18,6 +18,8 @@ async def get_db():
     db = SessionLocal()
     try: 
         yield db
+    except HTTPException as http_exc:
+        raise http_exc
     except Exception as e:
         print("There is a error in database instance: %s" % e)
         raise HTTPException(status_code=404, detail=f"{e}")
