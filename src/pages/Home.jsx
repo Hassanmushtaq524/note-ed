@@ -16,15 +16,22 @@ function Home() {
     const getCourseOptions = async () => {
         const url = `${process.env.REACT_APP_BACKEND_URL}/course/`;
         setLoading(true);
-        const response = await fetch(url, {
-            method: "GET"
-        })
-        if (!response.ok) {
-            throw Error("Error fetching course information")
+        try {
+            const response = await fetch(url, {
+                method: "GET"
+            });
+            if (!response.ok) {
+                throw new Error("Error fetching course information");
+            }
+            const data = await response.json();
+            setCourseOptions(data.courses);
+        } catch (error) {
+            console.error("Failed to fetch courses:", error);
+            setCourseOptions([]);
+            alert("Failed to load courses. Please try again later.");
+        } finally {
+            setLoading(false);
         }
-        const data = await response.json();
-        setCourseOptions(data.courses);
-        setLoading(false);
     }
     
 
@@ -56,11 +63,7 @@ function Home() {
      * On mount
      */
     useEffect(() => {
-        try {
-            getCourseOptions();
-        } catch (error) {
-            console.log(error);
-        }
+        getCourseOptions();
     }, [])
 
 

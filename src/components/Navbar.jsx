@@ -36,9 +36,9 @@ function Navbar({ mobileView, ...rest }) {
             </div>
             <div className="right-container
                             flex gap-12 items-center justify-around">
-                {links.map((item) => {
+                {links.map((item, i) => {
                     return (
-                        <div className="item">
+                        <div key={i} className="item">
                             <Link className="" to={item.href}>{item.name}</Link>
                         </div>
                     )

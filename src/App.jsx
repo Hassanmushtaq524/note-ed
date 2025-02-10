@@ -28,7 +28,7 @@ function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/signin" element={<Signin />} />
         <Route path="/signin" element={<Signin />} />
-        <Route path="/course/:id" element={<Course />} />
+        <Route path="/course/:id" element={<Course mobileView={mobileView} />} />
       </Routes>
       <Footer/>
     </>
