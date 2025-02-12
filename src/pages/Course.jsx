@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import backArrow from "../assets/images/back-arrow.svg";
-import downloadIcon from "../assets/images/downloadicon.svg";
+import Note from './Note';
 
 const types = [
     {btnText: "Lecture Notes", idText: "lecture_note"},
@@ -72,39 +72,6 @@ function Course({ mobileView, ...rest }) {
         })
     }, [selectedType, data])
 
-    /**
-     * Download the note_id from a presigned url
-     * 
-     * @param {*} note_id 
-     */
-    const handleDownload = async (note_id, name) => {
-        try {
-            const url = `${process.env.REACT_APP_BACKEND_URL}/note/${note_id}`;
-            const response = await fetch(url, {
-                method: "GET"
-            });
-            
-            if (!response.ok) {
-                throw new Error("Failed to get download URL");
-            }
-            
-            const data = await response.json();
-            console.log(data)
-            // Create a temporary link to trigger the download
-            const link = document.createElement('a');
-            link.href = data.url;
-            link.download = name; 
-            link.target = '_blank';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            
-        } catch (error) {
-            console.error("Failed to download file:", error);
-            alert("Failed to download file. Please try again later.");
-        }
-    };
-
 
 
     return (
@@ -114,8 +81,8 @@ function Course({ mobileView, ...rest }) {
                 <h3 className="text-light-gray">Fetching Notes . . .</h3>
                 : 
                 <>
-                <div className="w-fit h-fit flex flex-row gap-32">
-                    <button onClick={() => navigate("/")} className="p-2 rounded-xl bg-primary text-white h-fit">
+                <div className="size-fit flex flex-row gap-32">
+                    <button onClick={() => navigate("/")} className="px-4 py-2 rounded-xl bg-primary text-white h-fit">
                         <img src={backArrow} />
                     </button>
                     {/* Left container */}
@@ -150,19 +117,14 @@ function Course({ mobileView, ...rest }) {
                             <h2 className="font-bold">No items found <br/> BE THE FIRST TO CONTRIBUTE!</h2>
                             :
                             filData.notes.map((note, i) => (
-                                <div className="flex flex-col size-fit">
-                                    <div className="flex flex-row gap-2">
-                                    <button 
-                                        onClick={() => handleDownload(note._id, note.name)}
-                                        className="w-[2rem] bg-primary text-white rounded-lg hover:bg-opacity-90 transition-all"
-                                    >
-                                        <img src={downloadIcon} className="w-full fill-white" />
-                                    </button>
-                                        <h5 className="text-lg font-bold">{note.name}</h5>
-                                    </div>
-                                    <h6 className="font-regular text-light-gray self-end">by {note.username}</h6>
-                                    <h6 className="font-regular text-light-gray self-end">created at {note.created_at.slice(0, 10)}</h6>
-                                </div>
+                                <Note 
+                                    key={i}
+                                    _id = {note._id}
+                                    name = {note.name}
+                                    user_id = {note.user._id}
+                                    username = {note.user.username}
+                                    date = {note.created_at.slice(0, 10)}
+                                />
                             ))
                         }
                     </div>

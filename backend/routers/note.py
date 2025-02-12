@@ -42,7 +42,7 @@ def delete_note(request: Request, note_id: int, db: Session = db_dependency, use
     except HTTPException as http_exc:
         raise http_exc
     except Exception as e:
-        return JSONResponse(status_code=500)
+        return JSONResponse(status_code=500, content="Internal server error")
     
 
 
@@ -61,7 +61,7 @@ def get_note(request: Request, note_id: int, db: Session = db_dependency):
         s3_key = f"uploads/{s3_key}"
         
         # Generate presigned URL for the PDF
-        presigned_url = get_from_s3(s3_key)
+        presigned_url = get_from_s3(s3_key, note.name)
         if not presigned_url:
             raise HTTPException(status_code=400, detail="Failed to generate presigned URL")
         
@@ -72,4 +72,4 @@ def get_note(request: Request, note_id: int, db: Session = db_dependency):
     except HTTPException as http_exc:
         raise http_exc
     except Exception as e:
-        return JSONResponse(status_code=500, detail="Internal server error")
+        return JSONResponse(status_code=500, content="Internal server error")

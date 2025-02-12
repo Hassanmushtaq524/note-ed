@@ -78,7 +78,7 @@ function Home() {
                     {
                         loading ? 
                         <>
-                        <h3 className="text-dark-gray">Fetching course information . . .</h3>
+                            <h3 className="text-dark-gray">Fetching course information . . .</h3>
                         </>
                         :
                         <>
@@ -87,7 +87,7 @@ function Home() {
                                     value={courseCode} 
                                     setValue={setCourseCode}
                             />
-                            <btn className="p-2 bg-primary rounded-xl text-white font-black w-fit" onClick={getCourseId}>
+                            <btn className="p-2 bg-primary rounded-xl text-white font-black w-fit cursor-pointer" onClick={getCourseId}>
                                 FIND NOTES
                             </btn>
                         </>

@@ -115,7 +115,10 @@ def get_all_notes(course_id: int, request: Request, db: Session = db_dependency)
                 'name': note.name,
                 'pdf_url': note.pdf_url,
                 'type': note.type,
-                'username': ret.name,
+                'user': { 
+                    '_id': ret._id,
+                    'username': ret.name,
+                },
                 'course_id': note.course_id,
                 'created_at': note.created_at
             })

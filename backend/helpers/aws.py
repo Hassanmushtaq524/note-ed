@@ -84,7 +84,7 @@ def delete_from_s3(s3_key: str) -> bool:
         return False
     
 
-def get_from_s3(s3_key: str, expiration: int = 3600) -> str | None:
+def get_from_s3(s3_key: str, note_name: str, expiration: int = 3600) -> str | None:
     """
     Generate a presigned URL for an object in an S3 bucket.
 
@@ -103,9 +103,10 @@ def get_from_s3(s3_key: str, expiration: int = 3600) -> str | None:
             'get_object',
             Params={
                 'Bucket': BUCKET_NAME,
-                'Key': s3_key
+                'Key': s3_key,
+                'ResponseContentDisposition': f'attachment; filename="{note_name}"'
             },
-            ExpiresIn=expiration
+            ExpiresIn=expiration,
         )
         return url
     except Exception as e:
