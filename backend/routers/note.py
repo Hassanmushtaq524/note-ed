@@ -10,7 +10,7 @@ from dotenv import load_dotenv
 from typing import Annotated
 from helpers.extract import extract_text_from_images, pdf_to_images
 from helpers.user_dependency import auth_required, admin_required
-from helpers.aws import delete_from_s3
+from helpers.aws import delete_from_s3, get_from_s3
 load_dotenv()
 
 GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
@@ -43,3 +43,33 @@ def delete_note(request: Request, note_id: int, db: Session = db_dependency, use
         raise http_exc
     except Exception as e:
         return JSONResponse(status_code=500)
+    
+
+
+@router.get("/{note_id}")
+def get_note(request: Request, note_id: int, db: Session = db_dependency):
+    """
+    Get presigned url from the note_id
+    """
+    try:
+        note = db.query(Note).filter(Note._id == note_id).first()
+        
+        if not note:
+            raise HTTPException(status_code=404, detail="Note not found")
+        
+        s3_key = note.pdf_url.split("/")[-1]
+        s3_key = f"uploads/{s3_key}"
+        
+        # Generate presigned URL for the PDF
+        presigned_url = get_from_s3(s3_key)
+        if not presigned_url:
+            raise HTTPException(status_code=400, detail="Failed to generate presigned URL")
+        
+        return {
+            "status": "success",
+            "url": presigned_url
+        }
+    except HTTPException as http_exc:
+        raise http_exc
+    except Exception as e:
+        return JSONResponse(status_code=500, detail="Internal server error")

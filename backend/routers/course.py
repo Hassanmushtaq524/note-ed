@@ -116,7 +116,8 @@ def get_all_notes(course_id: int, request: Request, db: Session = db_dependency)
                 'pdf_url': note.pdf_url,
                 'type': note.type,
                 'username': ret.name,
-                'course_id': note.course_id
+                'course_id': note.course_id,
+                'created_at': note.created_at
             })
             
 
@@ -148,7 +149,7 @@ async def add_note(course_id: int, note_type: str, file: Annotated[UploadFile, F
         # we need to save it to aws
         pdf_url = await upload_to_s3(file)
         if not pdf_url:
-             raise HTTPException(status_code=400, detail="Unable to upload to s3")
+            raise HTTPException(status_code=400, detail="Unable to upload to s3")
         
         new_note = Note(name=file.filename, user_id=user._id, course_id=course_id, pdf_url=pdf_url, type=note_type)
         db.add(new_note)

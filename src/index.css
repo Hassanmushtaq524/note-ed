@@ -51,6 +51,9 @@ code {
   h4 {
     @apply text-xl font-medium leading-normal text-black;
   }
+  h6 {
+    @apply text-sm font-regular leading-normal text-black
+  }
   p {
     @apply text-base font-medium leading-relaxed text-black;
   }
