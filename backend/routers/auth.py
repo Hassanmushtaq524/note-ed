@@ -52,7 +52,7 @@ def authentication(request: Request, data: AuthenticationBody, db: Session = db_
             "email": user.email, 
             "name": user.name
         }
-
+        
 
         # Return the authenticated user's
         return {
@@ -86,8 +86,6 @@ def logout_user(request: Request, db: Session = db_dependency):
 def check_session(request: Request):
     # Check if user session exists
     if request.session.get("user"):
-        # TODO: remove
-        print(request.session.get("user"))
         return {"status": "success", "user": request.session.get("user")}
     else:
         return {"status": "success", "detail": "User not found"}

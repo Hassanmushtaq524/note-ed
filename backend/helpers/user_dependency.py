@@ -26,7 +26,6 @@ def auth_required(request: Request, db: Session = db_dependency):
     """
     Dependency function to make sure user is authenticated
     """
-    
     if not request.session.get("user"):
         raise HTTPException(status_code=403)
     current_user = request.session["user"]

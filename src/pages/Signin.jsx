@@ -1,11 +1,13 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { GoogleLogin } from '@react-oauth/google';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import Spinner from './Spinner';
 
 
 function Signin() {
     const { user, handleLoginSuccess, handleLoginFailure } = useAuth(); 
+    const [ loading, setLoading ] = useState(false);
     const navigate = useNavigate();
 
 
@@ -19,15 +21,27 @@ function Signin() {
         }
     }, [user])
 
+
+
     /**
      * Pass the credential to auth context
      * 
      * @param {*} credential 
      */
     const responseGoogle = async (credential) => { 
-        if (credential){ 
+        try {    
+            setLoading(true);
+            if (!credential) {
+                throw new Error("Login failed")
+            }        
             handleLoginSuccess(credential)
-        } 
+        } catch (error) {
+            console.error("An error occurred signing in", error)
+            alert("An error occurred signing in")
+        } finally {
+            setLoading(false);
+        }
+
     } 
 
     
@@ -49,18 +63,27 @@ function Signin() {
     return (
         <div id="sign-in" className="w-full h-screen flex items-center justify-center">
             <div className="w-[40%] flex flex-col gap-4 p-6 border-[1px] rounded-xl border-light-gray justify-center items-center">
-                <p>No sensitive information will be shared</p>
-                <GoogleLogin
-                    onSuccess={credentialResponse => {
-                        responseGoogle(credentialResponse.credential);
-                    }}
-                    onError={() => {
-                        handleLoginFailure();
-                    }}
-                    width={200}
-                    shape='pill'
-                />
-                <button onClick={temp}> Check session </button> 
+                {
+                    loading ?
+                    <>
+                        <Spinner />
+                    </>
+                    :
+                    <>
+                        <p>No sensitive information will be shared</p>
+                        <GoogleLogin
+                            onSuccess={credentialResponse => {
+                                responseGoogle(credentialResponse.credential);
+                            }}
+                            onError={() => {
+                                handleLoginFailure();
+                            }}
+                            width={200}
+                            shape='pill'
+                        />
+                        <button onClick={temp}> Check session </button> 
+                    </>
+                }
             </div>
         </div>
     )

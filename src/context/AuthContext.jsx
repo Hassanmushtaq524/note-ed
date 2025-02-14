@@ -36,11 +36,12 @@ export const AuthProvider = ({ children }) => {
             method: "POST",
             body: JSON.stringify({ token: credential })
         });
-        if (response.ok) {
-            const data = await response.json();
-            setUser(data.user);
-            localStorage.setItem('user', JSON.stringify(data.user));
+        if (!response.ok) {
+            throw new Error("Unable to sigin")
         }
+        const data = await response.json();
+        setUser(data.user);
+        localStorage.setItem('user', JSON.stringify(data.user));
     };
 
 

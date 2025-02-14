@@ -1,5 +1,7 @@
 import React, { useRef, useState } from 'react';
 import Button from './Button';
+import Spinner from '../pages/Spinner';
+import { useAuth } from '../context/AuthContext';
 
 
 
@@ -8,24 +10,41 @@ const AddNote = ({ courseId, noteTypes, ...rest }) => {
     const [loading, setLoading] = useState(false);
     const fileRef = useRef(null);
     const typeRef = useRef(null);
-
+    const { user } = useAuth();
 
     /**
      * Send request to backend to add note
      */
-    const handleSubmit = async () => {
+    const handleSubmit = async (e) => {
+        e.preventDefault();
         try {
             setLoading(true);
-            if (!typeRef.current || !fileRef.current) {
-                throw Error("An error occurred adding note")
+            if (!typeRef.current || !fileRef.current || !fileRef.current.files[0]) {
+                throw Error("Please select a file and note type");
             }
-            const url = `${process.env.REACT_APP_BACKEND_URL}/course/${courseId}/${typeRef.current.value}`;
+
+            const formData = new FormData();
+            formData.append('file', fileRef.current.files[0]);
+            const selectedIndex = typeRef.current.selectedIndex - 1;
+            const url = `${process.env.REACT_APP_BACKEND_URL}/course/${courseId}/${noteTypes[selectedIndex].idText}`;
+            
+            const response = await fetch(url, {
+                method: 'POST',
+                credentials: "include", 
+                body: formData,
+            });
+
+            if (!response.ok) {
+                throw Error("Failed to upload file");
+            }
+
+            setOpen(false);
         } catch (error) {
-            console.error("An error occured:", error);
+            console.error("An error occurred:", error);
         } finally {
             setLoading(false);
         }
-    } 
+    }
 
 
     return (
@@ -47,18 +66,32 @@ const AddNote = ({ courseId, noteTypes, ...rest }) => {
                                     <option key={i}>{type.btnText}</option>
                                 ))}
                             </select>
-                            <Button type={"submit"} text={"SUBMIT"}/>
+                            {
+                                loading ? 
+                                <Spinner />
+                                :
+                                <Button type={"submit"} text={"SUBMIT"}/>
+                            }
                         </form>
 
                     
                 </div>
             :
                 <div className="flex flex-col items-end justify-start w-full">
-                    <button 
-                        onClick={() => setOpen(true)}
-                        className="p-5 rounded-lg font-black w-[10rem] min-w-fit transition-all duration-500 bg-primary text-white">
-                        + ADD NOTES
-                    </button>
+                    { 
+                        user ? 
+                        <>
+                            <button 
+                                onClick={() => setOpen(true)}
+                                className="p-5 rounded-lg font-black w-[10rem] min-w-fit transition-all duration-500 bg-primary text-white">
+                                + ADD NOTES
+                            </button>
+                        </>
+                        :
+                        <>
+                            <h6 className='text-primary underline'>LOGIN TO CONTRIBUTE</h6>
+                        </>
+                    }
                 </div>
             }
         </>

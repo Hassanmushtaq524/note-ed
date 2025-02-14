@@ -38,6 +38,7 @@ origins = [
 	FRONTEND_URL
 ]
  
+
 app.add_middleware( 
 	CORSMiddleware, 
 	allow_origins=origins, 
@@ -45,6 +46,7 @@ app.add_middleware(
 	allow_methods=["*"], 
 	allow_headers=["*"], 
 ) 
+
 app.add_middleware(SessionMiddleware, secret_key=SECRET_KEY) 
 
 
@@ -55,7 +57,6 @@ app.include_router(router=courserouter, prefix="/course")
 # Note route
 app.include_router(router=noterouter, prefix="/note")
 
-    
 
 if __name__ == "__main__": 
     

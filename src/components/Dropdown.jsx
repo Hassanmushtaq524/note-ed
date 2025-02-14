@@ -7,40 +7,13 @@ import downArrow from "../assets/images/down-arrow.svg";
  * @returns Dropdown component
  */
 function Dropdown({ name , options, value, setValue, ...rest }) {
-    const [isOpen, setIsOpen] = useState(false);
-
-    
-    const toggleDropdown = () => {
-        setIsOpen(!isOpen);
-    };
-    
-
-    const handleOnClick = (item) => { 
-        setValue(item)
-        toggleDropdown()
-    }
-
-
     return (
-        <>
-        <div className="bg-light-gray p-2 rounded-xl text-white">
-            <button onClick={toggleDropdown} className="flex items-center gap-2">
-                {value ? value : name}           
-                <img src={downArrow} className="w-4"/>
-            </button>
-            {isOpen && (
-                <ul className="absolute bg-white border-[1px] text-dark-gray p-2 rounded-xl h-fit max-h-[100px] overflow-scroll">
-                    {options.length ? 
-                        options.map((item) => {
-                            return <li className="cursor-pointer" onClick={() => handleOnClick(item)}>{item}</li>
-                        }) :
-                        <p>No items</p>
-                    }
-                </ul>
-            )}
-
-        </div>
-        </>
+        <select onChange={(e) => setValue(e.target.value)} className="border-[0.5px] border-primary rounded-xl p-4">
+            <option>{name}</option>
+            {options.map((opt, i) => (
+                <option key={i}>{opt}</option>
+            ))}
+        </select>
     );
 }
 
