@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import backArrow from "../assets/images/back-arrow.svg";
-import Note from './Note';
+import Note from '../components/Note';
+import AddNote from '../components/AddNote';
 
 const types = [
     {btnText: "Lecture Notes", idText: "lecture_note"},
@@ -104,11 +105,7 @@ function Course({ mobileView, ...rest }) {
                             ))}
                         </div>
                         {/* add notes */}
-                        <div className="flex flex-col items-end justify-start w-full">
-                            <button className="p-5 rounded-lg font-regular w-[10rem] min-w-fit transition-all duration-500 bg-primary text-white">
-                                + ADD NOTES
-                            </button>
-                        </div>
+                        <AddNote courseId={id} noteTypes={types} />
                     </div>
                     {/* Right, Notes display */}
                     <div className="overflow-y-scroll w-[55dvw] rounded-xl border-[0.5px] border-light-gray flex flex-wrap gap-6 p-4">

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Dropdown from '../components/Dropdown';
 import { useNavigate } from 'react-router-dom';
+import Button from '../components/Button';
 
 function Home() {
     // TODO: make courseOptions into setCourse and a context
@@ -87,9 +88,7 @@ function Home() {
                                     value={courseCode} 
                                     setValue={setCourseCode}
                             />
-                            <btn className="p-2 bg-primary rounded-xl text-white font-black w-fit cursor-pointer" onClick={getCourseId}>
-                                FIND NOTES
-                            </btn>
+                            <Button text={"FIND NOTES"} onClick={getCourseId} />
                         </>
                     }
                 </div>
