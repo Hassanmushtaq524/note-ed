@@ -7,6 +7,9 @@ import Navbar from "./components/Navbar";
 import Footer from './components/Footer';
 import Course from './pages/Course';
 
+
+
+
 function App() {
   const [mobileView, setMobileView] = useState(window.innerWidth <= 768);
 

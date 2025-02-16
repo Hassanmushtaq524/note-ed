@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react'
 import Dropdown from '../components/Dropdown';
 import { useNavigate } from 'react-router-dom';
 import Button from '../components/Button';
+import { useQuery } from '@tanstack/react-query';
+
+
 
 function Home() {
-    // TODO: make courseOptions into setCourse and a context
-    const [courseOptions, setCourseOptions] = useState([])
     const [courseCode, setCourseCode] = useState(null);
-    const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
 
@@ -16,25 +16,29 @@ function Home() {
      */
     const getCourseOptions = async () => {
         const url = `${process.env.REACT_APP_BACKEND_URL}/course/`;
-        setLoading(true);
-        try {
-            const response = await fetch(url, {
-                method: "GET"
-            });
-            if (!response.ok) {
-                throw new Error("Error fetching course information");
-            }
-            const data = await response.json();
-            setCourseOptions(data.courses);
-        } catch (error) {
-            console.error("Failed to fetch courses:", error);
-            setCourseOptions([]);
-            alert("Failed to load courses. Please try again later.");
-        } finally {
-            setLoading(false);
+        const response = await fetch(url, {
+            method: "GET"
+        });
+        if (!response.ok) {
+            throw new Error("Error fetching course information");
         }
+        return (await response.json());
+        
     }
+
+
+
+    /**
+     * Cache
+     */
+    const { data, isLoading, isError } = useQuery({
+        queryKey: ['home'],
+        queryFn: getCourseOptions,
+        staleTime: 5 * 60 * 1000, 
+        retry: 2, 
+    });
     
+
 
     /**
      * Search the course options and get the course
@@ -45,17 +49,16 @@ function Home() {
             return;
         } 
         let found = false;
-        for (let i = 0; i < courseOptions.length; i++) {
+        for (let i = 0; i < data.courses.length; i++) {
             if (
-                courseOptions[i].course_code == courseCode
+                data.courses[i].course_code == courseCode
             ) {
                 found = true;
-                navigate(`/course/${courseOptions[i]._id}`)
+                navigate(`/course/${data.courses[i]._id}`)
             }
         }
         if (!found) { alert("No course information found") }
         setCourseCode(null);
-    
     }
 
 
@@ -68,6 +71,7 @@ function Home() {
     }, [])
 
 
+
     return (
         <div id="home" className="w-full h-dvh flex items-center justify-center">
 
@@ -77,14 +81,14 @@ function Home() {
                 </div>
                 <div className="row-start-2 flex flex-col items-start justify-end gap-6">
                     {
-                        loading ? 
+                        isLoading ? 
                         <>
                             <h3 className="text-dark-gray">Fetching course information . . .</h3>
                         </>
                         :
                         <>
                             <Dropdown name="COURSE CODE" 
-                                    options={courseOptions.map(item => item.course_code)} 
+                                    options={data.courses.map(item => item.course_code)} 
                                     value={courseCode} 
                                     setValue={setCourseCode}
                             />

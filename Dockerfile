@@ -13,6 +13,5 @@ COPY . .
 
 # Expose the frontend port (default Vite/React port)
 EXPOSE 3000
-
 # Start the frontend
 CMD ["npm", "run", "start"]
