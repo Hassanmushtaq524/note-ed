@@ -49,7 +49,7 @@ const AddNote = ({ courseId, noteTypes, ...rest }) => {
 
     return (
         <>
-            {open ?
+            {open &&
                 <div
                     onClick={() => setOpen(false)} 
                     className="absolute top-0 left-0 z-50 size-full bg-transparent backdrop-blur-lg flex items-center justify-center"
@@ -76,24 +76,23 @@ const AddNote = ({ courseId, noteTypes, ...rest }) => {
 
                     
                 </div>
-            :
-                <div className="flex flex-col items-end justify-start w-full">
-                    { 
-                        user ? 
-                        <>
-                            <button 
-                                onClick={() => setOpen(true)}
-                                className="p-5 rounded-lg font-black w-[10rem] min-w-fit transition-all duration-500 bg-primary text-white">
-                                + ADD NOTES
-                            </button>
-                        </>
-                        :
-                        <>
-                            <h6 className='text-primary underline'>LOGIN TO CONTRIBUTE</h6>
-                        </>
-                    }
-                </div>
             }
+            <div className="flex flex-col items-end justify-start w-full">
+                { 
+                    user ? 
+                    <>
+                        <button 
+                            onClick={() => setOpen(true)}
+                            className="p-5 rounded-lg font-black w-[10rem] min-w-fit transition-all duration-500 bg-primary text-white">
+                            + ADD NOTES
+                        </button>
+                    </>
+                    :
+                    <>
+                        <h6 className='text-primary underline'>LOGIN TO CONTRIBUTE</h6>
+                    </>
+                }
+            </div>
         </>
     );
 }

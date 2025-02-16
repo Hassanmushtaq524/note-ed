@@ -2,6 +2,7 @@ from fastapi import APIRouter, HTTPException, Depends, UploadFile, File
 from fastapi.responses import JSONResponse
 from starlette.requests import Request 
 from sqlalchemy.orm import Session
+from sqlalchemy.ext.asyncio import AsyncSession
 from db import db_dependency
 from models import User, Course, Note
 from pydantic import BaseModel
@@ -67,6 +68,8 @@ def get_all_courses(request: Request, db: Session = db_dependency):
     except HTTPException as http_exc: 
         raise http_exc
     except Exception as e:
+        # TODO: remove
+        print(e)
         return JSONResponse(status_code=500, content="Internal server error")
 
     
