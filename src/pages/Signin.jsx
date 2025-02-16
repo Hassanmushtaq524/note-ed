@@ -19,7 +19,7 @@ function Signin() {
         if (user) {
             navigate("/");
         }
-    }, [user])
+    }, [user, navigate])
 
 
 

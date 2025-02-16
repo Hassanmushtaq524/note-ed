@@ -1,9 +1,7 @@
-version: '3.8'
-
 services:
   backend:
     build:
-      context: ./backend 
+      context: ./backend
       dockerfile: Dockerfile
     env_file:
       - backend/.env
@@ -18,5 +16,9 @@ services:
       - .env.development
     ports:
       - "3000:3000"
+    volumes:
+      - ./:/app  
+      - /app/node_modules
     depends_on:
       - backend
+    command: npm start 

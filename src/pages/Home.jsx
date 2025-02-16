@@ -69,7 +69,7 @@ function Home() {
 
 
     return (
-        <div id="home" className="w-full h-dvh flex items-center justify-center ">
+        <div id="home" className="w-full h-dvh flex items-center justify-center">
 
             <div className="container w-[80%] h-fit flex flex-col md:grid md:grid-cols-2 md:grid-rows-2 md:col-span-1 gap-24">
                 <div>
