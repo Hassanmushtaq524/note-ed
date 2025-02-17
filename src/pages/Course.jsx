@@ -14,43 +14,36 @@ const types = [
 function Course({ mobileView, ...rest }) {
     const { id } = useParams();
     const [selectedType, setSelectedType] = useState(0);
+    const [page, setPage] = useState(1);
     const navigate = useNavigate();
 
     /**
      * Fetch course and notes data using React Query
      */
     const fetchCourseData = async () => {
-        const url = `${process.env.REACT_APP_BACKEND_URL}/course/${id}`;
+        const url = `${process.env.REACT_APP_BACKEND_URL}/course/${id}?page=${page}&type=${types[selectedType].idText}`;
         const response = await fetch(url);
         if (!response.ok) {
             throw new Error("Error fetching course information");
         }
         return (await response.json());
     };
-
-    const { data, isLoading, isError } = useQuery({
-        queryKey: ['course', id],
+    const { data, isLoading, isError, refetch } = useQuery({
+        queryKey: ['course', id, page, selectedType],
         queryFn: fetchCourseData,
         staleTime: 5 * 60 * 1000, 
         retry: 2, 
     });
 
-    /**
-     * Filter notes based on selected type
-     */
-    const filteredNotes = useMemo(() => {
-        if (!data) return [];
-        return data.notes.filter(note => note.type === types[selectedType].idText);
-    }, [data, selectedType]);
 
 
 
     if (isLoading) {
-        return <h3 className="text-light-gray">Fetching Notes . . .</h3>;
+        return <h3 className="w-full h-dvh flex items-center justify-center text-light-gray">Fetching Notes . . .</h3>;
     }
 
     if (isError) {
-        return <h3 className="text-red-500">Failed to fetch notes. Please try again later.</h3>;
+        return <h3 className="w-full h-dvh flex items-center justify-center text-red-500">Failed to fetch notes. Please try again later.</h3>;
     }
 
     return (
@@ -65,9 +58,6 @@ function Course({ mobileView, ...rest }) {
                     {/* Course Info */}
                     <div className='relative w-full h-[10rem]'>
                         <h1 className="absolute top-0 left-0">{data?.course.course_code}</h1>
-                        <h6 className="absolute bottom-0 left-0">
-                            <span className="font-black">{data?.notes.length}</span> Total Items
-                        </h6>
                     </div>
 
                     {/* Type Selection */}
@@ -76,7 +66,11 @@ function Course({ mobileView, ...rest }) {
                             <button key={t.idText}
                                 className={`p-2 rounded-xl font-regular w-[10rem] min-w-fit transition-all duration-500 border-[0.5px]
                                         ${selectedType === i ? 'bg-primary text-white border-primary' : 'bg-white text-black border-light-gray'}`}
-                                onClick={() => setSelectedType(i)}>
+                                onClick={() => {
+                                    setSelectedType(i);
+                                    setPage(1);
+                                }}
+                            >
                                 {t.btnText}
                             </button>
                         ))}
@@ -87,21 +81,42 @@ function Course({ mobileView, ...rest }) {
                 </div>
 
                 {/* Notes Display */}
-                <div className="overflow-y-scroll w-[55dvw] rounded-xl border-[0.5px] border-light-gray flex flex-wrap gap-6 p-4">
-                    {filteredNotes.length === 0 ? (
-                        <h2 className="font-bold">No items found <br /> BE THE FIRST TO CONTRIBUTE!</h2>
-                    ) : (
-                        filteredNotes.map((note) => (
-                            <Note 
-                                key={note._id}
-                                _id={note._id}
-                                name={note.name}
-                                user_id={note.user._id}
-                                username={note.user.username}
-                                date={note.created_at.slice(0, 10)}
-                            />
-                        ))
-                    )}
+                <div className="flex flex-col gap-4">
+                    <div className="overflow-y-scroll h-[40rem] w-[40rem] rounded-xl border-[0.5px] border-light-gray flex flex-col gap-4 p-4">
+                        {data.notes.length === 0 ? (
+                            <h2 className="font-bold">No items found <br /> BE THE FIRST TO CONTRIBUTE!</h2>
+                        ) : (
+                            data.notes.map((note) => (
+                                <Note 
+                                    key={note._id}
+                                    _id={note._id}
+                                    name={note.name}
+                                    user_id={note.user._id}
+                                    username={note.user.username}
+                                    date={note.created_at.slice(0, 10)}
+                                />
+                            ))
+                        )}
+                    </div>
+                    
+                    {/* Pagination Controls */}
+                    <div className="flex justify-between items-center px-4">
+                        <button 
+                            onClick={() => setPage(prev => Math.max(1, prev - 1))}
+                            disabled={page === 1}
+                            className={`px-4 py-2 rounded-xl ${page === 1 ? 'bg-gray-300' : 'bg-primary'} text-white`}
+                        >
+                            Previous
+                        </button>
+                        <span>Page {page}</span>
+                        <button 
+                            onClick={() => setPage(prev => prev + 1)}
+                            disabled={data?.pagination.page >= data?.pagination.total_pages}
+                            className={`px-4 py-2 rounded-xl ${data?.pagination.page >= data?.pagination.total_pages ? 'bg-gray-300' : 'bg-primary'} text-white`}
+                        >
+                            Next
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

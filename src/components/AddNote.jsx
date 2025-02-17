@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react';
 import Button from './Button';
 import Spinner from '../pages/Spinner';
 import { useAuth } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -11,6 +12,7 @@ const AddNote = ({ courseId, noteTypes, ...rest }) => {
     const fileRef = useRef(null);
     const typeRef = useRef(null);
     const { user } = useAuth();
+    const navigate = useNavigate();
 
     /**
      * Send request to backend to add note
@@ -89,7 +91,11 @@ const AddNote = ({ courseId, noteTypes, ...rest }) => {
                     </>
                     :
                     <>
-                        <h6 className='text-primary underline'>LOGIN TO CONTRIBUTE</h6>
+                        <button 
+                            onClick={() => navigate("/signin")}
+                            className="p-5 rounded-lg font-black w-[10rem] min-w-fit transition-all duration-500 bg-primary text-white">
+                            LOGIN TO CONTRIBUTE
+                        </button>
                     </>
                 }
             </div>
