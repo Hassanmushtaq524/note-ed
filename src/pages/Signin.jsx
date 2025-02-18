@@ -34,7 +34,7 @@ function Signin() {
             if (!credential) {
                 throw new Error("Login failed")
             }        
-            handleLoginSuccess(credential)
+            await handleLoginSuccess(credential)
         } catch (error) {
             console.error("An error occurred signing in", error)
             alert("An error occurred signing in")
@@ -43,21 +43,6 @@ function Signin() {
         }
 
     } 
-
-    
-
-    const temp = () =>{ 
-        fetch(`${process.env.REACT_APP_BACKEND_URL}/auth/checksession`,{ 
-            credentials: 'include' 
-        }) 
-        .then((response) => { 
-            return response.json(); 
-        }) 
-        .then((myJson) => { 
-            alert(myJson) 
-        }); 
-    } 
-
 
 
     return (
@@ -81,7 +66,6 @@ function Signin() {
                             width={200}
                             shape='pill'
                         />
-                        <button onClick={temp}> Check session </button> 
                     </>
                 }
             </div>
