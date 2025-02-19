@@ -35,14 +35,15 @@ const AddNote = ({ courseId, noteTypes, onSuccess, ...rest }) => {
                 credentials: "include", 
                 body: formData,
             });
-
+            console.log(response);
             if (!response.ok) {
-                throw Error("Failed to upload file");
+                throw Error(`Failed to upload file, daily limit possibly reached`);
             }
             
             onSuccess();
         } catch (error) {
             console.error("An error occurred:", error);
+            alert(error);
         } finally {
             setLoading(false);
             setOpen(false);
@@ -62,7 +63,7 @@ const AddNote = ({ courseId, noteTypes, onSuccess, ...rest }) => {
                             onClick={(e) => e.stopPropagation()} 
                             className="size-fit z-[60] bg-white border-[0.5px] border-light-gray rounded-xl p-6 flex flex-col items-start gap-6" action=""
                         >
-                            <input ref={fileRef} type='file' className="border-[0.5px] border-primary rounded-xl p-4"/>
+                            <input ref={fileRef} type="file" accept=".pdf" className="border-[0.5px] border-primary rounded-xl p-4"/>
                             <select ref={typeRef} className="border-[0.5px] border-primary rounded-xl p-4">
                                 <option>Please select item type</option>
                                 {noteTypes.map((type, i) => (
@@ -87,7 +88,7 @@ const AddNote = ({ courseId, noteTypes, onSuccess, ...rest }) => {
                         <button 
                             onClick={() => setOpen(true)}
                             className="p-5 rounded-lg font-black w-[10rem] min-w-fit transition-all duration-500 bg-primary text-white">
-                            + ADD NOTES
+                            + ADD ITEM
                         </button>
                     </>
                     :
