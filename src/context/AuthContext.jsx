@@ -13,14 +13,22 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
 
+    /**
+     * Get session from cookies
+     */
     useEffect(() => {
         // Check if the user is already authenticated (e.g., in localStorage or session)
-        const storedUser = localStorage.getItem('user');
-        if (storedUser) {
-            setUser(JSON.parse(storedUser));
-        } else {
-            setUser(null);
+        const getSession = async () => {
+            const response = await fetch("http://localhost:8000/auth/checksession", { credentials: "include" });
+            if (!response.ok) {
+                setUser(null);
+                return;
+            }
+            const data = await response.json();
+            setUser(data.user);
         }
+
+        getSession();
     }, []);
 
 
@@ -44,7 +52,6 @@ export const AuthProvider = ({ children }) => {
         }
         const data = await response.json();
         setUser(data.user);
-        localStorage.setItem('user', JSON.stringify(data.user));
     };
 
 

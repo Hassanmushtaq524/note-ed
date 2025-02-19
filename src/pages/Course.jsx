@@ -77,7 +77,7 @@ function Course({ mobileView, ...rest }) {
                     </div>
 
                     {/* Add Notes */}
-                    <AddNote courseId={id} noteTypes={types} />
+                    <AddNote courseId={id} noteTypes={types} onSuccess={refetch}/>
                 </div>
 
                 {/* Notes Display */}
@@ -94,6 +94,7 @@ function Course({ mobileView, ...rest }) {
                                     user_id={note.user._id}
                                     username={note.user.username}
                                     date={note.created_at.slice(0, 10)}
+                                    onDelete={refetch}
                                 />
                             ))
                         )}

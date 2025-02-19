@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 
-const AddNote = ({ courseId, noteTypes, ...rest }) => {
+const AddNote = ({ courseId, noteTypes, onSuccess, ...rest }) => {
     const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(false);
     const fileRef = useRef(null);
@@ -39,12 +39,13 @@ const AddNote = ({ courseId, noteTypes, ...rest }) => {
             if (!response.ok) {
                 throw Error("Failed to upload file");
             }
-
-            setOpen(false);
+            
+            onSuccess();
         } catch (error) {
             console.error("An error occurred:", error);
         } finally {
             setLoading(false);
+            setOpen(false);
         }
     }
 

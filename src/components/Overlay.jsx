@@ -20,4 +20,4 @@ const Overlay = ({ buttonElement, openElement, ...rest }) => {
     )
 }
 
-export default Overlay
+export default Overlay;
