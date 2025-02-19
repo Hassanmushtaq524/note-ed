@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import downloadIcon from "../assets/images/downloadicon.svg";
 import deleteIcon from "../assets/images/deleteicon.svg";
-import Spinner from '../pages/Spinner';
+import Spinner from './Spinner';
 import { useAuth } from '../context/AuthContext';
 import Button from './Button';
 

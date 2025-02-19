@@ -3,6 +3,7 @@ import Dropdown from '../components/Dropdown';
 import { useNavigate } from 'react-router-dom';
 import Button from '../components/Button';
 import { useQuery } from '@tanstack/react-query';
+import DefaultDisplay from '../components/DefaultDisplay';
 
 
 
@@ -73,8 +74,7 @@ function Home() {
 
 
     return (
-        <div id="home" className="w-full h-dvh flex items-center justify-center">
-
+        <DefaultDisplay>
             <div className="container w-[80%] h-fit flex flex-col md:grid md:grid-cols-2 md:grid-rows-2 md:col-span-1 gap-24">
                 <div>
                     <h1>ALL YOUR NOTES FOR <span className="text-primary">OWU</span> CLASSES IN ONE PLACE</h1>
@@ -103,7 +103,7 @@ function Home() {
                     <p className="font-thin">hhmushtaq@owu.edu</p>
                 </div>
             </div>
-        </div>
+        </DefaultDisplay>
     )
 }
 

@@ -1,12 +1,12 @@
 import React, { useRef, useState } from 'react';
 import Button from './Button';
-import Spinner from '../pages/Spinner';
+import Spinner from './Spinner';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
 
 
-const AddNote = ({ courseId, noteTypes, onSuccess, ...rest }) => {
+const AddNote = ({ mobileView, courseId, noteTypes, onSuccess, ...rest }) => {
     const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(false);
     const fileRef = useRef(null);
@@ -56,7 +56,7 @@ const AddNote = ({ courseId, noteTypes, onSuccess, ...rest }) => {
             {open &&
                 <div
                     onClick={() => setOpen(false)} 
-                    className="absolute top-0 left-0 z-50 size-full bg-transparent backdrop-blur-lg flex items-center justify-center"
+                    className="size-full absolute top-0 left-0 z-50 bg-transparent backdrop-blur-lg flex items-center justify-center"
                 >
                         <form 
                             onSubmit={handleSubmit}
@@ -81,26 +81,25 @@ const AddNote = ({ courseId, noteTypes, onSuccess, ...rest }) => {
                     
                 </div>
             }
-            <div className="flex flex-col items-end justify-start w-full">
-                { 
-                    user ? 
-                    <>
-                        <button 
-                            onClick={() => setOpen(true)}
-                            className="p-5 rounded-lg font-black w-[10rem] min-w-fit transition-all duration-500 bg-primary text-white">
-                            + ADD ITEM
-                        </button>
-                    </>
-                    :
-                    <>
-                        <button 
-                            onClick={() => navigate("/signin")}
-                            className="p-5 rounded-lg font-black w-[10rem] min-w-fit transition-all duration-500 bg-primary text-white">
-                            LOGIN TO CONTRIBUTE
-                        </button>
-                    </>
-                }
-            </div>
+            { 
+                user ? 
+                <>
+                    <button 
+                        onClick={() => setOpen(true)}
+                        className="p-5 rounded-lg font-black max-h-fit max-w-full transition-all duration-500 bg-primary text-white">
+                        + 
+                        {!mobileView && <span>ADD ITEMS</span>}
+                    </button>
+                </>
+                :
+                <>
+                    <button 
+                        onClick={() => navigate("/signin")}
+                        className="p-5 rounded-lg font-black max-h-fit max-w-full transition-all duration-500 bg-primary text-white">
+                        LOGIN TO ADD
+                    </button>
+                </>
+            }
         </>
     );
 }

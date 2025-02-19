@@ -6,6 +6,7 @@ import Home from './pages/Home';
 import Navbar from "./components/Navbar";
 import Footer from './components/Footer';
 import Course from './pages/Course';
+import Privacy from './pages/Privacy';
 
 
 
@@ -24,17 +25,17 @@ function App() {
   }, []);
 
   return (
-    <>
+    <div className='overflow-x-hidden'>
       <Navbar mobileView={mobileView}/>
       <Routes>
         <Route index element={<Home />} /> 
         <Route path="/home" element={<Home />} />
         <Route path="/signin" element={<Signin />} />
-        <Route path="/signin" element={<Signin />} />
         <Route path="/course/:id" element={<Course mobileView={mobileView} />} />
+        <Route path="/privacy" element={<Privacy />} />
       </Routes>
       <Footer/>
-    </>
+    </div>
   );
 }
 

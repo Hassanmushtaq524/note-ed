@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { GoogleLogin } from '@react-oauth/google';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import Spinner from './Spinner';
+import Spinner from '../components/Spinner';
+import DefaultDisplay from '../components/DefaultDisplay';
 
 
 function Signin() {
@@ -46,7 +47,7 @@ function Signin() {
 
 
     return (
-        <div id="sign-in" className="w-full h-screen flex items-center justify-center">
+        <DefaultDisplay>
             <div className="w-[40%] flex flex-col gap-4 p-6 border-[1px] rounded-xl border-light-gray justify-center items-center">
                 {
                     loading ?
@@ -69,7 +70,7 @@ function Signin() {
                     </>
                 }
             </div>
-        </div>
+        </DefaultDisplay>
     )
 }
 
