@@ -83,4 +83,33 @@ def delete_from_s3(s3_key: str) -> bool:
         print(f"Error deleting object: {e}")
         return False
     
+
+def get_from_s3(s3_key: str, note_name: str, expiration: int = 3600) -> str | None:
+    """
+    Generate a presigned URL for an object in an S3 bucket.
+
+    :param s3_key: The S3 key of the object to retrieve.
+    :param expiration: Time in seconds until the URL expires (default: 1 hour)
+    :return: Presigned URL as string if successful, None otherwise.
+    """
+    s3_client = boto3.client(
+        "s3",
+        aws_access_key_id=AWS_ACCESS_KEY,
+        aws_secret_access_key=AWS_SECRET_KEY,
+    )
+    
+    try:
+        url = s3_client.generate_presigned_url(
+            'get_object',
+            Params={
+                'Bucket': BUCKET_NAME,
+                'Key': s3_key,
+                'ResponseContentDisposition': f'attachment; filename="{note_name}"'
+            },
+            ExpiresIn=expiration,
+        )
+        return url
+    except Exception as e:
+        print(f"Error generating presigned URL: {e}")
+        return None
     

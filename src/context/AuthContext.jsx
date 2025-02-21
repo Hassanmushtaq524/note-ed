@@ -1,23 +1,34 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
-import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
 
 const AuthContext = createContext();
+
+
 
 export const useAuth = () => {
     return useContext(AuthContext);
 };
 
+
+
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
 
+    /**
+     * Get session from cookies
+     */
     useEffect(() => {
         // Check if the user is already authenticated (e.g., in localStorage or session)
-        const storedUser = localStorage.getItem('user');
-        if (storedUser) {
-            setUser(JSON.parse(storedUser));
-        } else {
-            setUser(null);
+        const getSession = async () => {
+            const response = await fetch("http://localhost:8000/auth/checksession", { credentials: "include" });
+            if (!response.ok) {
+                setUser(null);
+                return;
+            }
+            const data = await response.json();
+            setUser(data.user);
         }
+
+        getSession();
     }, []);
 
 
@@ -36,11 +47,11 @@ export const AuthProvider = ({ children }) => {
             method: "POST",
             body: JSON.stringify({ token: credential })
         });
-        if (response.ok) {
-            const data = await response.json();
-            setUser(data.user);
-            localStorage.setItem('user', JSON.stringify(data.user));
+        if (!response.ok) {
+            throw new Error("Unable to sigin")
         }
+        const data = await response.json();
+        setUser(data.user);
     };
 
 
@@ -49,6 +60,7 @@ export const AuthProvider = ({ children }) => {
      */
     const handleLoginFailure = () => {
         console.error('Login failed');
+        alert("Unable to login");
     };
 
 

@@ -1,11 +1,14 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { GoogleLogin } from '@react-oauth/google';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import Spinner from '../components/Spinner';
+import DefaultDisplay from '../components/DefaultDisplay';
 
 
 function Signin() {
     const { user, handleLoginSuccess, handleLoginFailure } = useAuth(); 
+    const [ loading, setLoading ] = useState(false);
     const navigate = useNavigate();
 
 
@@ -17,7 +20,9 @@ function Signin() {
         if (user) {
             navigate("/");
         }
-    }, [user])
+    }, [user, navigate])
+
+
 
     /**
      * Pass the credential to auth context
@@ -25,44 +30,49 @@ function Signin() {
      * @param {*} credential 
      */
     const responseGoogle = async (credential) => { 
-        if (credential){ 
-            handleLoginSuccess(credential)
-        } 
+        try {    
+            setLoading(true);
+            if (!credential) {
+                throw new Error("Login failed")
+            }        
+            await handleLoginSuccess(credential)
+        } catch (error) {
+            console.error("An error occurred signing in", error)
+            alert("An error occurred signing in")
+        } finally {
+            setLoading(false);
+        }
+
     } 
-
-    
-
-    const temp = () =>{ 
-        fetch(`${process.env.REACT_APP_BACKEND_URL}/auth/checksession`,{ 
-            credentials: 'include' 
-        }) 
-        .then((response) => { 
-            return response.json(); 
-        }) 
-        .then((myJson) => { 
-            alert(myJson) 
-        }); 
-    } 
-
 
 
     return (
-        <div id="sign-in" className="w-full h-screen flex items-center justify-center">
-            <div className="w-[40%] flex flex-col gap-4 p-6 border-[1px] rounded-xl border-light-gray justify-center items-center">
-                <p>No sensitive information will be shared</p>
-                <GoogleLogin
-                    onSuccess={credentialResponse => {
-                        responseGoogle(credentialResponse.credential);
-                    }}
-                    onError={() => {
-                        handleLoginFailure();
-                    }}
-                    width={200}
-                    shape='pill'
-                />
-                <button onClick={temp}> Check session </button> 
+        <DefaultDisplay>
+            <div className="size-fit max-w-[60dvw] flex flex-col gap-4 p-8 border-[0.5px] rounded-xl border-primary justify-center items-center text-center">
+                {
+                    loading ?
+                    <>
+                        <Spinner />
+                    </>
+                    :
+                    <>  
+                        <h1 className='text-primary'>SIGN IN</h1>
+                        <p>Sign in and contribute towards note sharing & learning</p>
+                        <GoogleLogin
+                            onSuccess={credentialResponse => {
+                                responseGoogle(credentialResponse.credential);
+                            }}
+                            onError={() => {
+                                handleLoginFailure();
+                            }}
+                            width={200}
+                            shape='pill'
+                        />
+                        <p className='text-light-gray text-xs'>No sensitive information will be shared</p>
+                    </>
+                }
             </div>
-        </div>
+        </DefaultDisplay>
     )
 }
 

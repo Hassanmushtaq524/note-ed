@@ -39,19 +39,35 @@ code {
 
 
 @layer base {
+
   h1 {
-    @apply text-5xl font-black leading-tight text-black;
+    @apply text-3xl md:text-5xl font-black leading-tight text-black;
   }
   h2 {
-    @apply text-3xl font-medium leading-snug text-black;
+    @apply text-2xl md:text-3xl font-medium leading-snug text-black;
   }
   h3 {
-    @apply text-2xl font-medium leading-normal text-black;
+    @apply text-xl md:text-2xl font-medium leading-normal text-black;
   }
   h4 {
-    @apply text-xl font-medium leading-normal text-black;
+    @apply text-lg md:text-xl font-medium leading-normal text-black;
+  }
+  h5 {
+    @apply text-base md:text-lg font-regular leading-normal text-black;
+  }
+  h6 {
+    @apply text-sm font-regular leading-normal text-black
   }
   p {
-    @apply text-base font-medium leading-relaxed text-black;
+    @apply text-xs md:text-sm font-medium leading-relaxed text-black;
+  }
+  a {
+    @apply text-xs md:text-sm font-medium leading-relaxed text-black cursor-pointer;
+  }
+  ul {
+    @apply list-disc pl-5 mb-4;
+  }
+  li {
+    @apply mb-2;
   }
 }

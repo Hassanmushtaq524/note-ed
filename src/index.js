@@ -6,12 +6,17 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { AuthProvider } from './context/AuthContext';
+import {
+  QueryClientProvider,
+  QueryClient
+} from '@tanstack/react-query';
 
-
-
+const queryClient = new QueryClient();
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
 root.render(
   <React.StrictMode>
+    <QueryClientProvider client={queryClient}>
     <AuthProvider>
     <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
     <BrowserRouter>
@@ -19,6 +24,7 @@ root.render(
     </BrowserRouter>
     </GoogleOAuthProvider>
     </AuthProvider>
+    </QueryClientProvider>
   </React.StrictMode>
 );
 

@@ -8,8 +8,15 @@ load_dotenv()
 
 DB_PATH = os.getenv("DB_PATH")
 
+engine = create_engine(
+    DB_PATH,
+    pool_size=10,      # Controls max concurrent connections
+    max_overflow=5,    # Allows extra temporary connections
+    pool_recycle=1800, # Prevents idle connections from closing
+    pool_pre_ping=True # Ensures connections are alive before reuse
+)
 
-engine = create_engine(DB_PATH, pool_recycle=1800)
+
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 

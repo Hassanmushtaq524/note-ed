@@ -49,15 +49,17 @@ def authentication(request: Request, data: AuthenticationBody, db: Session = db_
 
         # Store user info in session
         request.session["user"] = {
+            "_id": user._id,
             "email": user.email, 
             "name": user.name
         }
-
+        
 
         # Return the authenticated user's
         return {
             "status": "success",
             "user": {
+                "_id": user._id,
                 "email": user.email, 
                 "name": user.name
             },
@@ -73,7 +75,7 @@ def authentication(request: Request, data: AuthenticationBody, db: Session = db_
 def logout_user(request: Request, db: Session = db_dependency):
     try:
         if request.session.get("user"): 
-            del request.session["user"] 
+            request.session.clear()
             return {"status": "success", "detail": "Logged out successfully"}
         else:
             return JSONResponse(status_code=400, content={"detail": "No user session found"})
@@ -85,9 +87,10 @@ def logout_user(request: Request, db: Session = db_dependency):
 @router.get("/checksession")
 def check_session(request: Request):
     # Check if user session exists
-    if request.session.get("user"):
-        # TODO: remove
-        print(request.session.get("user"))
-        return {"status": "success", "user": request.session.get("user")}
-    else:
-        return {"status": "success", "detail": "User not found"}
+    try:
+        if request.session.get("user"): 
+            return {"status": "success", "user": request.session.get("user")}
+        else:
+            return JSONResponse(status_code=400, content={"detail": "No user session found"})
+    except Exception as e:
+        return JSONResponse(status_code=500, content={"detail": "Internal server error"})
