@@ -1,6 +1,6 @@
-# NotiNotes
+# NOTE-ed
 
-NotiNotes is a note storage application designed specifically for students at Ohio Wesleyan University. The app allows students to securely store their notes, upload PDF files for easy access, and share them with other students. Notes are stored in a PostgreSQL database, while PDF files are stored in AWS S3 and made publicly accessible.
+NOTE-ed is a note storage application designed specifically for students at Ohio Wesleyan University. The app allows students to securely store their notes, upload PDF files for easy access, and share them with other students. Notes are stored in a PostgreSQL database, while PDF files are stored in AWS S3 and made publicly accessible.
 
 ## Features
 
@@ -11,7 +11,7 @@ NotiNotes is a note storage application designed specifically for students at Oh
 
 ## Installation
 ```bash
-   cd notinotes
+   cd note-ed
    docker compose up --build
 ```
 
