@@ -20,7 +20,7 @@ function Footer() {
             <a className="font-regular text-white" target="__blank" href="https://www.instagram.com/hassanmushtaq_">Instagram</a>
             <a className="font-regular text-white" target="__blank" href="https://hassanmushtaq.netlify.app/">Website</a>
           </div>
-          <p className='font-regular text-white self-end'>© 2025 NotiNote. All Rights Reserved.</p>
+          <p className='font-regular text-white self-end'>© 2025 NotiNotes. All Rights Reserved.</p>
         </div>
     </div>
   )
