@@ -34,7 +34,7 @@ function Navbar({ mobileView, ...rest }) {
         <>
             <div id="navbar" className="z-50 w-full h-fit p-4 flex items-center justify-between font-regular border-[0.5px] border-light-gray rounded-lg">
                 <div className="logo cursor-pointer" onClick={() => navigate("/")}>
-                    <img src={Logo} alt="NotiNotes" className='md:w-fit min-w-[10rem]' />
+                    <img src={Logo} alt="NOTE-ed" className='max-w-[15rem]' />
                 </div>
                 {
                     !mobileView ? 
