@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Button from '../components/Button';
 import { useQuery } from '@tanstack/react-query';
 import DefaultDisplay from '../components/DefaultDisplay';
+import AnimatedTitle from '../components/AnimatedTitle';
 
 
 
@@ -76,9 +77,7 @@ function Home() {
     return (
         <DefaultDisplay>
             <div className="container w-[80%] h-fit flex flex-col md:grid md:grid-cols-2 md:grid-rows-2 md:col-span-1 gap-24">
-                <div>
-                    <h1>ALL YOUR NOTES FOR <span className="text-primary">OWU</span> CLASSES IN ONE PLACE</h1>
-                </div>
+                <AnimatedTitle text={"ALL YOUR NOTES FOR OWU CLASSES IN ONE PLACE"}/>
                 <div className="row-start-2 flex flex-col items-start justify-end gap-6">
                     {
                         isLoading ? 
