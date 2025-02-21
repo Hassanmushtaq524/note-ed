@@ -7,7 +7,7 @@ import Navbar from "./components/Navbar";
 import Footer from './components/Footer';
 import Course from './pages/Course';
 import Privacy from './pages/Privacy';
-
+import About from "./pages/About";
 
 
 
@@ -31,6 +31,7 @@ function App() {
         <Route index element={<Home />} /> 
         <Route path="/home" element={<Home />} />
         <Route path="/signin" element={<Signin />} />
+        <Route path="/about" element={<About />} />
         <Route path="/course/:id" element={<Course mobileView={mobileView} />} />
         <Route path="/privacy" element={<Privacy />} />
       </Routes>

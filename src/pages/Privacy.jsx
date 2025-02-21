@@ -4,7 +4,7 @@ import DefaultDisplay from '../components/DefaultDisplay'
 const Privacy = () => {
   return (
     <DefaultDisplay>
-      <div className='w-[70dvw] flex flex-col gap-6'>
+      <div className='w-[80dvw] flex flex-col gap-6'>
         <h1>Privacy Policy</h1>
         <h2>1. Introduction</h2>
         <p>Welcome to NotiNote! Your privacy is important to us. This Privacy Policy explains how we collect, use, and protect your personal information when you use our platform.</p>

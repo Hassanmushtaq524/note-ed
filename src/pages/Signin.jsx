@@ -48,15 +48,16 @@ function Signin() {
 
     return (
         <DefaultDisplay>
-            <div className="w-[40%] flex flex-col gap-4 p-6 border-[1px] rounded-xl border-light-gray justify-center items-center">
+            <div className="size-fit max-w-[60dvw] flex flex-col gap-4 p-8 border-[0.5px] rounded-xl border-primary justify-center items-center text-center">
                 {
                     loading ?
                     <>
                         <Spinner />
                     </>
                     :
-                    <>
-                        <p>No sensitive information will be shared</p>
+                    <>  
+                        <h1 className='text-primary'>SIGN IN</h1>
+                        <p>Sign in and contribute towards note sharing & learning</p>
                         <GoogleLogin
                             onSuccess={credentialResponse => {
                                 responseGoogle(credentialResponse.credential);
@@ -67,6 +68,7 @@ function Signin() {
                             width={200}
                             shape='pill'
                         />
+                        <p className='text-light-gray text-xs'>No sensitive information will be shared</p>
                     </>
                 }
             </div>

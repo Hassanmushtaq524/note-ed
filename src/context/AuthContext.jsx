@@ -60,6 +60,7 @@ export const AuthProvider = ({ children }) => {
      */
     const handleLoginFailure = () => {
         console.error('Login failed');
+        alert("Unable to login");
     };
 
 

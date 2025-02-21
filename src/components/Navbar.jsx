@@ -76,7 +76,7 @@ function Navbar({ mobileView, ...rest }) {
                                 <div className="flex flex-col gap-12 items-center justify-around">
                                     {links.map((item, i) => {
                                         return (
-                                            <Link className="text-primary text-5xl font-black" href={item.href}>{item.name}</Link>
+                                            <Link key={i} className="text-primary text-5xl font-black" to={item.href}>{item.name}</Link>
                                         )
                                     })}
                                     {
@@ -85,7 +85,7 @@ function Navbar({ mobileView, ...rest }) {
                                             Logout
                                         </button>
                                         :
-                                        <button className="rounded-lg bg-primary text-white p-2 text-5xl font-black" onClick = {() => navigate("/signin")}>
+                                        <button className="rounded-lg bg-primary text-white p-2 text-5xl font-black" onClick={() => navigate("/signin")}>
                                             Sign In
                                         </button>
                                     }

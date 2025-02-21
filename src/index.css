@@ -39,6 +39,7 @@ code {
 
 
 @layer base {
+
   h1 {
     @apply text-3xl md:text-5xl font-black leading-tight text-black;
   }
