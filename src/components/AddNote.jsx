@@ -56,29 +56,27 @@ const AddNote = ({ mobileView, courseId, noteTypes, onSuccess, ...rest }) => {
             {open &&
                 <div
                     onClick={() => setOpen(false)} 
-                    className="size-full absolute top-0 left-0 z-50 bg-transparent backdrop-blur-lg flex items-center justify-center"
+                    className="size-full fixed top-0 left-0 z-50 bg-transparent backdrop-blur-lg flex items-center justify-center overflow-hidden"
                 >
-                        <form 
-                            onSubmit={handleSubmit}
-                            onClick={(e) => e.stopPropagation()} 
-                            className="size-fit z-[60] bg-white border-[0.5px] border-light-gray rounded-xl p-6 flex flex-col items-start gap-6" action=""
-                        >
-                            <input ref={fileRef} type="file" accept=".pdf" className="border-[0.5px] border-primary rounded-xl p-4"/>
-                            <select ref={typeRef} className="border-[0.5px] border-primary rounded-xl p-4">
-                                <option>Please select item type</option>
-                                {noteTypes.map((type, i) => (
-                                    <option key={i}>{type.btnText}</option>
-                                ))}
-                            </select>
-                            {
-                                loading ? 
-                                <Spinner />
-                                :
-                                <Button type={"submit"} text={"SUBMIT"}/>
-                            }
-                        </form>
-
-                    
+                    <form 
+                        onSubmit={handleSubmit}
+                        onClick={(e) => e.stopPropagation()} 
+                        className="size-fit z-[60] bg-white border-[0.5px] border-light-gray rounded-xl p-6 flex flex-col items-start gap-6" action=""
+                    >
+                        <input ref={fileRef} type="file" accept=".pdf" className="border-[0.5px] border-primary rounded-xl p-4"/>
+                        <select ref={typeRef} className="border-[0.5px] border-primary rounded-xl p-4">
+                            <option>Please select item type</option>
+                            {noteTypes.map((type, i) => (
+                                <option key={i}>{type.btnText}</option>
+                            ))}
+                        </select>
+                        {
+                            loading ? 
+                            <Spinner />
+                            :
+                            <Button type={"submit"} text={"SUBMIT"}/>
+                        }
+                    </form>
                 </div>
             }
             { 

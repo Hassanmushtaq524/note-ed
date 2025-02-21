@@ -58,6 +58,15 @@ code {
     @apply text-sm font-regular leading-normal text-black
   }
   p {
-    @apply text-sm md:text-base font-medium leading-relaxed text-black;
+    @apply text-xs md:text-sm font-medium leading-relaxed text-black;
+  }
+  a {
+    @apply text-xs md:text-sm font-medium leading-relaxed text-black cursor-pointer;
+  }
+  ul {
+    @apply list-disc pl-5 mb-4;
+  }
+  li {
+    @apply mb-2;
   }
 }

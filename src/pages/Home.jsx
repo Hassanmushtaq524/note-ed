@@ -100,7 +100,7 @@ function Home() {
                     <h4>CONTRIBUTE TO NOTES</h4>
                     <h4>& VIEW OTHER NOTES</h4>
                     <p className="font-thin">MADE BY HASSAN MUSHTAQ</p>
-                    <p className="font-thin">hhmushtaq@owu.edu</p>
+                    <a className="font-thin" href="mailto:hhmushtaq@owu.edu">hhmushtaq@owu.edu</a>
                 </div>
             </div>
         </DefaultDisplay>

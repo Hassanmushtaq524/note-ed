@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import downloadIcon from "../assets/images/downloadicon.svg";
 import deleteIcon from "../assets/images/deleteicon.svg";
 import Spinner from './Spinner';
@@ -7,19 +7,21 @@ import Button from './Button';
 
 
 
+/**
+ * Create sliced name
+ */
+const shortenName = (name) => {
+    return name.length > 20 ? `${name.slice(0, 20)}...` : name;
+}
+
+
 function Note({ _id, name, username, date, user_id, onDelete, ...rest }) {
     const [ downloading, setDownloading ] = useState(false);
     const [ deleting, setDeleting ] = useState(false);
     const [ open, setOpen ] = useState();
     const { user } = useAuth();
 
-    /**
-     * Create sliced name
-     */
-    const shortenName = (name) => {
-        return name.length > 20 ? `${name.slice(0, 20)}...` : name;
-    }
-
+    
     
     /**
      * Download the note_id from a presigned url
@@ -112,7 +114,7 @@ function Note({ _id, name, username, date, user_id, onDelete, ...rest }) {
                     { open &&
                         <div 
                             onClick={() => {setOpen(false)}}
-                            className="absolute top-0 left-0 z-50 size-full bg-transparent backdrop-blur-lg flex items-center justify-center"
+                            className="fixed top-0 left-0 z-50 size-full bg-transparent backdrop-blur-lg flex items-center justify-center"
                         >   
                             {
                                 deleting ? 

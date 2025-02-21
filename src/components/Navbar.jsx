@@ -43,8 +43,8 @@ function Navbar({ mobileView, ...rest }) {
                         >
                             {links.map((item, i) => {
                                 return (
-                                    <div key={i} className="item hover:text-white hover:bg-primary duration-700 hover:rounded-lg">
-                                        <Link className="" to={item.href}>{item.name}</Link>
+                                    <div key={i} className="item hover:bg-primary duration-700 hover:rounded-lg">
+                                        <a className='hover:text-white ' href={item.href}>{item.name}</a>
                                     </div>
                                 )
                             })}
@@ -71,14 +71,12 @@ function Navbar({ mobileView, ...rest }) {
                             burgerOpen &&
                             <div
                                 onClick={() => setBurgerOpen(false)} 
-                                className="absolute top-0 left-0 z-50 size-full bg-transparent backdrop-blur-lg flex items-center justify-center"
+                                className="fixed top-0 left-0 z-50 size-full bg-transparent backdrop-blur-lg flex items-center justify-center overscroll-none"
                             >
                                 <div className="flex flex-col gap-12 items-center justify-around">
                                     {links.map((item, i) => {
                                         return (
-                                            <div key={i} className="item text-primary text-5xl font-black">
-                                                <Link className="" to={item.href}>{item.name}</Link>
-                                            </div>
+                                            <Link className="text-primary text-5xl font-black" href={item.href}>{item.name}</Link>
                                         )
                                     })}
                                     {
