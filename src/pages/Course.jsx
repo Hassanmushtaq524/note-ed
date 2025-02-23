@@ -52,7 +52,7 @@ function Course({ mobileView, ...rest }) {
             <div className="size-full md:size-fit flex flex-col md:flex-row gap-32">
                 {
                     !mobileView &&
-                    <button onClick={() => navigate("/")} className="px-4 py-2 rounded-xl bg-primary text-white h-fit">
+                    <button onClick={() => navigate("/")} className="px-4 py-2  bg-primary text-white h-fit">
                         <img src={backArrow} />
                     </button>
                 }
@@ -68,7 +68,7 @@ function Course({ mobileView, ...rest }) {
                     <div className="w-full h-fit flex flex-col gap-6 items-end">
                         {types.map((t, i) => (
                             <button key={t.idText}
-                                className={`p-2 rounded-xl font-regular w-[10rem] min-w-fit transition-all duration-500 border-[0.5px]
+                                className={`p-2  font-regular w-[10rem] min-w-fit transition-all duration-500 border-[0.5px]
                                         ${selectedType === i ? 'bg-primary text-white border-primary' : 'bg-white text-black border-light-gray'}`}
                                 onClick={() => {
                                     setSelectedType(i);
@@ -87,7 +87,7 @@ function Course({ mobileView, ...rest }) {
                 {/* Notes Display */}
                 <div className="flex flex-col gap-4 w-full">
                     {/* Notes */}
-                    <div className="w-full overflow-y-scroll md:w-[40rem] h-[40rem] rounded-xl border-[0.5px] border-light-gray flex flex-col gap-4 p-4">
+                    <div className="w-full overflow-y-scroll md:w-[40rem] h-[40rem]  border-[0.5px] border-light-gray flex flex-col gap-4 p-4">
                         {data.notes.length === 0 ? (
                             <h2 className="font-bold">No items found</h2>
                         ) : (
@@ -110,7 +110,7 @@ function Course({ mobileView, ...rest }) {
                         <button 
                             onClick={() => setPage(prev => Math.max(1, prev - 1))}
                             disabled={page === 1}
-                            className={`px-4 py-2 rounded-xl ${page === 1 ? 'bg-gray-300' : 'bg-primary'} text-white`}
+                            className={`px-4 py-2  ${page === 1 ? 'bg-gray-300' : 'bg-primary'} text-white`}
                         >
                             Previous
                         </button>
@@ -118,7 +118,7 @@ function Course({ mobileView, ...rest }) {
                         <button 
                             onClick={() => setPage(prev => prev + 1)}
                             disabled={data?.pagination.page >= data?.pagination.total_pages}
-                            className={`px-4 py-2 rounded-xl ${data?.pagination.page >= data?.pagination.total_pages ? 'bg-gray-300' : 'bg-primary'} text-white`}
+                            className={`px-4 py-2  ${data?.pagination.page >= data?.pagination.total_pages ? 'bg-gray-300' : 'bg-primary'} text-white`}
                         >
                             Next
                         </button>
