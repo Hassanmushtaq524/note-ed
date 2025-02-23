@@ -61,10 +61,10 @@ const AddNote = ({ mobileView, courseId, noteTypes, onSuccess, ...rest }) => {
                     <form 
                         onSubmit={handleSubmit}
                         onClick={(e) => e.stopPropagation()} 
-                        className="size-fit z-[60] bg-white border-[0.5px] border-light-gray rounded-xl p-6 flex flex-col items-start gap-6" action=""
+                        className="size-fit z-[60] bg-white border-[0.5px] border-light-gray  p-6 flex flex-col items-start gap-6" action=""
                     >
-                        <input ref={fileRef} type="file" accept=".pdf" className="border-[0.5px] border-primary rounded-xl p-4"/>
-                        <select ref={typeRef} className="border-[0.5px] border-primary rounded-xl p-4">
+                        <input ref={fileRef} type="file" accept=".pdf" className="border-[0.5px] border-primary  p-4"/>
+                        <select ref={typeRef} className="border-[0.5px] border-primary  p-4">
                             <option>Please select item type</option>
                             {noteTypes.map((type, i) => (
                                 <option key={i}>{type.btnText}</option>
@@ -84,7 +84,7 @@ const AddNote = ({ mobileView, courseId, noteTypes, onSuccess, ...rest }) => {
                 <>
                     <button 
                         onClick={() => setOpen(true)}
-                        className="p-5 rounded-lg font-black max-h-fit max-w-full transition-all duration-500 bg-primary text-white">
+                        className="p-5  font-black max-h-fit max-w-full transition-all duration-500 bg-primary text-white">
                         + 
                         {!mobileView && <span>ADD ITEMS</span>}
                     </button>
@@ -93,7 +93,7 @@ const AddNote = ({ mobileView, courseId, noteTypes, onSuccess, ...rest }) => {
                 <>
                     <button 
                         onClick={() => navigate("/signin")}
-                        className="p-5 rounded-lg font-black max-h-fit max-w-full transition-all duration-500 bg-primary text-white">
+                        className="p-5  font-black max-h-fit max-w-full transition-all duration-500 bg-primary text-white">
                         LOGIN TO ADD
                     </button>
                 </>

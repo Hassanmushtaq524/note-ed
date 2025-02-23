@@ -77,7 +77,7 @@ function Note({ _id, name, username, date, user_id, onDelete, ...rest }) {
 
 
     return (
-        <div className="p-2 border-[0.5px] border-primary rounded-xl flex flex-col size-fit">
+        <div className="p-2 border-[0.5px] border-primary  flex flex-col size-fit">
                 <>
                     <div className="flex flex-row gap-2">
                         {
@@ -124,7 +124,7 @@ function Note({ _id, name, username, date, user_id, onDelete, ...rest }) {
                                 :
                                 <div 
                                     onClick={(e) => e.stopPropagation()}
-                                    className="size-fit border-[0.5px] border-primary flex flex-col justify-center items-center p-4 gap-4 bg-white rounded-xl"
+                                    className="size-fit border-[0.5px] border-primary flex flex-col justify-center items-center p-4 gap-4 bg-white "
                                 >
                                     <h5>Are you sure you want to delete?</h5>
                                     <div className="flex gap-4">

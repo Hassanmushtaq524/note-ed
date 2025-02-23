@@ -7,8 +7,8 @@ const Privacy = () => {
       <div className='w-[80dvw] flex flex-col gap-6'>
         <h1>Privacy Policy</h1>
         <h2>1. Introduction</h2>
-        <p>Welcome to NotiNote! Your privacy is important to us. This Privacy Policy explains how we collect, use, and protect your personal information when you use our platform.</p>
-        <p>By using NotiNote, you agree to the terms of this Privacy Policy. If you do not agree, please do not use our services.</p>
+        <p>Welcome to NOTE-ed! Your privacy is important to us. This Privacy Policy explains how we collect, use, and protect your personal information when you use our platform.</p>
+        <p>By using NOTE-ed, you agree to the terms of this Privacy Policy. If you do not agree, please do not use our services.</p>
 
         <h2>2. Information We Collect</h2>
         <ul>
@@ -61,11 +61,11 @@ const Privacy = () => {
         <h2>6. User Rights</h2>
         <ul>
             <li>Users can view, upload, and delete notes.</li>
-            <li>Users can stop using NotiNote at any time.</li>
+            <li>Users can stop using NOTE-ed at any time.</li>
         </ul>
 
         <h2>7. Policy Changes</h2>
-        <p>We may update this Privacy Policy. Continued use of NotiNote after updates means acceptance of the new policy.</p>
+        <p>We may update this Privacy Policy. Continued use of NOTE-ed after updates means acceptance of the new policy.</p>
         <p>For questions, contact us at <strong>[your contact email]</strong>.</p>
 
         <hr/>
@@ -73,7 +73,7 @@ const Privacy = () => {
         <h1 id="terms">Terms and Conditions</h1>
 
         <h2>1. Introduction</h2>
-        <p>Welcome to NotiNote! By using our platform, you agree to these Terms & Conditions.</p>
+        <p>Welcome to NOTE-ed! By using our platform, you agree to these Terms & Conditions.</p>
 
         <h2>2. User Responsibilities</h2>
         <ul>
@@ -94,7 +94,7 @@ const Privacy = () => {
         <h2>4. Content Ownership</h2>
         <ul>
             <li>Users own their uploaded notes.</li>
-            <li>By uploading, you grant NotiNote permission to store and display your notes publicly.</li>
+            <li>By uploading, you grant NOTE-ed permission to store and display your notes publicly.</li>
         </ul>
 
         <h2>5. Account & Data Usage</h2>
@@ -111,7 +111,7 @@ const Privacy = () => {
                     <li>Misuse of publicly available notes.</li>
                 </ul>
             </li>
-            <li>Use NotiNote at your own risk.</li>
+            <li>Use NOTE-ed at your own risk.</li>
         </ul>
 
         <h2>7. Termination of Service</h2>

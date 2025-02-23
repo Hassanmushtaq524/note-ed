@@ -25,6 +25,7 @@ function App() {
   }, []);
 
   return (
+    <>
     <div className='overflow-x-hidden'>
       <Navbar mobileView={mobileView}/>
       <Routes>
@@ -37,6 +38,7 @@ function App() {
       </Routes>
       <Footer/>
     </div>
+    </>
   );
 }
 

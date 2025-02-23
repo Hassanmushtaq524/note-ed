@@ -11,7 +11,7 @@ const AnimatedTitle = ({ text, containerClass, ...rest }) => {
                 opacity: 0,
                 stagger: 0.2, 
                 duration: 0.7,
-                ease: "linear"
+                ease: "power1.inOut"
             });
         }, containerRef); 
 
@@ -21,7 +21,7 @@ const AnimatedTitle = ({ text, containerClass, ...rest }) => {
     return (
         <div ref={containerRef} className={`${containerClass} gap-2 flex flex-wrap`}>
             {text.split(" ").map((word, i) => (
-                <h1 key={i} className="word inline-block">{word}</h1>
+                <h1 key={i} className="word inline-block text-primary">{word}</h1>
             ))}
         </div>
     );

@@ -9,6 +9,7 @@ import DefaultDisplay from '../components/DefaultDisplay';
 function Signin() {
     const { user, handleLoginSuccess, handleLoginFailure } = useAuth(); 
     const [ loading, setLoading ] = useState(false);
+    const [ termsAccepted, setTermsAccepted ] = useState(false);
     const navigate = useNavigate();
 
 
@@ -58,16 +59,30 @@ function Signin() {
                     <>  
                         <h1 className='text-primary'>SIGN IN</h1>
                         <p>Sign in and contribute towards note sharing & learning</p>
-                        <GoogleLogin
-                            onSuccess={credentialResponse => {
-                                responseGoogle(credentialResponse.credential);
-                            }}
-                            onError={() => {
-                                handleLoginFailure();
-                            }}
-                            width={200}
-                            shape='pill'
-                        />
+                        <label className='flex gap-2'>
+                            <input 
+                                type="checkbox"
+                                checked={termsAccepted} 
+                                onChange={() => setTermsAccepted(!termsAccepted)}
+                            />
+                            I accept the terms & conditions
+                        </label>
+                        {
+                            !termsAccepted ?
+                            <div className='font-thin text-xs p-4 flex justify-center items-center border-[0.5px] border-light-gray'>
+                                YOU MUST ACCEPT <br/> TERMS & CONDITIONS
+                            </div>
+                            :
+                            <GoogleLogin
+                                onSuccess={credentialResponse => {
+                                    responseGoogle(credentialResponse.credential);
+                                }}
+                                onError={() => {
+                                    handleLoginFailure();
+                                }}
+                                size={200}
+                            />
+                        }
                         <p className='text-light-gray text-xs'>No sensitive information will be shared</p>
                     </>
                 }
