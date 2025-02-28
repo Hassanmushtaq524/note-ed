@@ -85,8 +85,7 @@ const AddNote = ({ mobileView, courseId, noteTypes, onSuccess, ...rest }) => {
                     <button 
                         onClick={() => setOpen(true)}
                         className="p-5  font-black max-h-fit max-w-full transition-all duration-500 bg-primary text-white">
-                        + 
-                        {!mobileView && <span>ADD ITEMS</span>}
+                        + ADD ITEMS
                     </button>
                 </>
                 :
