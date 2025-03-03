@@ -66,7 +66,7 @@ const Privacy = () => {
 
         <h2>7. Policy Changes</h2>
         <p>We may update this Privacy Policy. Continued use of NOTE-ed after updates means acceptance of the new policy.</p>
-        <p>For questions, contact us at <strong>[your contact email]</strong>.</p>
+        <p>For questions, contact us at <strong>hhmushtaq@owu.edu</strong>.</p>
 
         <hr/>
 
@@ -118,7 +118,7 @@ const Privacy = () => {
         <p>We reserve the right to suspend or terminate accounts that violate our policies.</p>
 
         <h2>8. Governing Law</h2>
-        <p>These Terms are governed by <strong>[your country/state’s law]</strong>.</p>
+        <p>These Terms are governed by <strong>Ohio's Law</strong>.</p>
         <p>For questions, contact us at <strong>hhmushtaq@owu.edu</strong>.</p>
 
       </div>

@@ -52,12 +52,12 @@ function Course({ mobileView, ...rest }) {
             <div className="size-full md:size-fit flex flex-col md:flex-row gap-32">
                 {
                     !mobileView &&
-                    <button onClick={() => navigate("/")} className="px-4 py-2  bg-primary text-white h-fit">
+                    <button onClick={() => navigate("/")} className="px-4 py-2  bg-primary text-white h-fit hover:bg-opacity-90  duration-700">
                         <img src={backArrow} />
                     </button>
                 }
                 
-                {/* Left container */}
+                {/* Left container */} 
                 <div className="left-container flex flex-row flex-wrap w-full gap-6 md:w-fit md:justify-normal md:flex-col md:gap-24">
                     {/* Course Info */}
                     <div className='relative w-full h-[10rem]'>
