@@ -52,20 +52,21 @@ function Course({ mobileView, ...rest }) {
             <div className="size-full md:size-fit flex flex-col md:flex-row gap-32">
                 {
                     !mobileView &&
-                    <button onClick={() => navigate("/")} className="px-4 py-2  bg-primary text-white h-fit">
+                    <button onClick={() => navigate("/")} className="px-4 py-2  bg-primary text-white h-fit hover:bg-opacity-90  duration-700">
                         <img src={backArrow} />
                     </button>
                 }
                 
-                {/* Left container */}
-                <div className="left-container flex flex-row w-full gap-6 md:w-fit md:justify-normal md:flex-col md:gap-24">
+                {/* Left container */} 
+                <div className="left-container flex flex-row flex-wrap w-full gap-6 md:w-fit md:justify-normal md:flex-col md:gap-24">
                     {/* Course Info */}
                     <div className='relative w-full h-[10rem]'>
                         <h1 className="absolute top-0 left-0">{data?.course.course_code}</h1>
+                        <h6 className="absolute bottom-0 left-0">{data?.course.name}</h6>
                     </div>
 
                     {/* Type Selection */}
-                    <div className="w-full h-fit flex flex-col gap-6 items-end">
+                    <div className="w-full h-fit flex flex-col gap-6 items-start">
                         {types.map((t, i) => (
                             <button key={t.idText}
                                 className={`p-2  font-regular w-[10rem] min-w-fit transition-all duration-500 border-[0.5px]

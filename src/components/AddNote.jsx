@@ -56,13 +56,18 @@ const AddNote = ({ mobileView, courseId, noteTypes, onSuccess, ...rest }) => {
             {open &&
                 <div
                     onClick={() => setOpen(false)} 
-                    className="size-full fixed top-0 left-0 z-50 bg-transparent backdrop-blur-lg flex items-center justify-center overflow-hidden"
-                >
+                    className="size-full fixed z-[70] top-0 left-0 bg-transparent backdrop-blur-lg flex items-center justify-center overflow-hidden"
+                >   
                     <form 
                         onSubmit={handleSubmit}
                         onClick={(e) => e.stopPropagation()} 
-                        className="size-fit z-[60] bg-white border-[0.5px] border-light-gray  p-6 flex flex-col items-start gap-6" action=""
+                        className="size-fit bg-white border-[0.5px] border-light-gray  p-6 flex flex-col items-start gap-6" action=""
                     >
+                        <ul>
+                            <li>DO NOT UPLOAD ILLEGAL, IRRELEVANT, OR INAPPROPRIATE CONTENT</li>
+                            <li>DO NOT UPLOAD COPYRIGHTED MATERIAL UNLESS YOU OWN THE RIGHTS</li>
+                            <li>UPLOADED NOTES ARE PUBLIC AND ACCESSIBLE BY EVERYONE</li>
+                        </ul>
                         <input ref={fileRef} type="file" accept=".pdf" className="border-[0.5px] border-primary  p-4"/>
                         <select ref={typeRef} className="border-[0.5px] border-primary  p-4">
                             <option>Please select item type</option>
@@ -84,16 +89,15 @@ const AddNote = ({ mobileView, courseId, noteTypes, onSuccess, ...rest }) => {
                 <>
                     <button 
                         onClick={() => setOpen(true)}
-                        className="p-5  font-black max-h-fit max-w-full transition-all duration-500 bg-primary text-white">
-                        + 
-                        {!mobileView && <span>ADD ITEMS</span>}
+                        className="p-5 font-black max-h-fit max-w-full transition-all duration-500 bg-primary text-white">
+                        + ADD ITEMS
                     </button>
                 </>
                 :
                 <>
                     <button 
                         onClick={() => navigate("/signin")}
-                        className="p-5  font-black max-h-fit max-w-full transition-all duration-500 bg-primary text-white">
+                        className="p-5 font-black max-h-fit max-w-full transition-all duration-500 bg-primary text-white">
                         LOGIN TO ADD
                     </button>
                 </>

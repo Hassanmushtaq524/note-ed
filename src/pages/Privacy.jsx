@@ -6,6 +6,7 @@ const Privacy = () => {
     <DefaultDisplay>
       <div className='w-[80dvw] flex flex-col gap-6'>
         <h1>Privacy Policy</h1>
+        <p className='font-thin'>Updated: 3 March 2025</p>
         <h2>1. Introduction</h2>
         <p>Welcome to NOTE-ed! Your privacy is important to us. This Privacy Policy explains how we collect, use, and protect your personal information when you use our platform.</p>
         <p>By using NOTE-ed, you agree to the terms of this Privacy Policy. If you do not agree, please do not use our services.</p>
@@ -66,7 +67,7 @@ const Privacy = () => {
 
         <h2>7. Policy Changes</h2>
         <p>We may update this Privacy Policy. Continued use of NOTE-ed after updates means acceptance of the new policy.</p>
-        <p>For questions, contact us at <strong>[your contact email]</strong>.</p>
+        <p>For questions, contact us at <strong>hhmushtaq@owu.edu</strong>.</p>
 
         <hr/>
 
@@ -118,7 +119,7 @@ const Privacy = () => {
         <p>We reserve the right to suspend or terminate accounts that violate our policies.</p>
 
         <h2>8. Governing Law</h2>
-        <p>These Terms are governed by <strong>[your country/state’s law]</strong>.</p>
+        <p>These Terms are governed by <strong>Ohio's Law</strong>.</p>
         <p>For questions, contact us at <strong>hhmushtaq@owu.edu</strong>.</p>
 
       </div>
