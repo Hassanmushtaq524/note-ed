@@ -6,6 +6,7 @@ const Privacy = () => {
     <DefaultDisplay>
       <div className='w-[80dvw] flex flex-col gap-6'>
         <h1>Privacy Policy</h1>
+        <p className='font-thin'>Updated: 3 March 2025</p>
         <h2>1. Introduction</h2>
         <p>Welcome to NOTE-ed! Your privacy is important to us. This Privacy Policy explains how we collect, use, and protect your personal information when you use our platform.</p>
         <p>By using NOTE-ed, you agree to the terms of this Privacy Policy. If you do not agree, please do not use our services.</p>

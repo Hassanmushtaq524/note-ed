@@ -64,9 +64,9 @@ const AddNote = ({ mobileView, courseId, noteTypes, onSuccess, ...rest }) => {
                         className="size-fit bg-white border-[0.5px] border-light-gray  p-6 flex flex-col items-start gap-6" action=""
                     >
                         <ul>
-                            <li className='font-thin text-black'>DO NOT UPLOAD ILLEGAL, IRRELEVANT, OR INAPPROPRIATE CONTENT</li>
-                            <li className='font-thin text-black'>DO NOT UPLOAD COPYRIGHTED MATERIAL UNLESS YOU OWN THE RIGHTS</li>
-                            <li className='font-thin text-black'>UPLOADED NOTES ARE PUBLIC AND ACCESSIBLE BY EVERYONE</li>
+                            <li>DO NOT UPLOAD ILLEGAL, IRRELEVANT, OR INAPPROPRIATE CONTENT</li>
+                            <li>DO NOT UPLOAD COPYRIGHTED MATERIAL UNLESS YOU OWN THE RIGHTS</li>
+                            <li>UPLOADED NOTES ARE PUBLIC AND ACCESSIBLE BY EVERYONE</li>
                         </ul>
                         <input ref={fileRef} type="file" accept=".pdf" className="border-[0.5px] border-primary  p-4"/>
                         <select ref={typeRef} className="border-[0.5px] border-primary  p-4">

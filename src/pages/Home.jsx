@@ -5,13 +5,14 @@ import Button from '../components/Button';
 import { useQuery } from '@tanstack/react-query';
 import DefaultDisplay from '../components/DefaultDisplay';
 import AnimatedTitle from '../components/AnimatedTitle';
+import PageTransition from '../components/PageTransition';
 
 
 
 function Home() {
     const [courseCode, setCourseCode] = useState(null);
+    const [transition, setTransition] = useState(false);
     const navigate = useNavigate();
-
 
     /**
      * Get all the course information from db
@@ -46,6 +47,7 @@ function Home() {
      * Search the course options and get the course
      */
     const getCourseId = async () => {
+
         if (!courseCode) {
             alert("Please select the course")
             return;
@@ -75,6 +77,8 @@ function Home() {
 
 
     return (
+        <>
+        { transition &&   <PageTransition />}
         <DefaultDisplay>
             <div className="container w-[80%] h-fit flex flex-col md:grid md:grid-cols-2 md:grid-rows-2 md:col-span-1 gap-24">
                 <AnimatedTitle text={"ALL YOUR NOTES FOR OWU CLASSES IN ONE PLACE"}/>
@@ -103,6 +107,7 @@ function Home() {
                 </div>
             </div>
         </DefaultDisplay>
+        </>
     )
 }
 
