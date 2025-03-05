@@ -1,17 +1,17 @@
-# Use Node.js image
-FROM node:20
+# Build stage
+FROM node:20 AS build
 
-# Set working directory
 WORKDIR /app
 
-# Copy package.json and install dependencies first (for caching)
+# Copy only the frontend files
 COPY package.json package-lock.json ./
 RUN npm install
 
-# Copy the rest of the frontend code
 COPY . .
+RUN npm run build
 
-# Expose the frontend port (default Vite/React port)
-EXPOSE 3000
-# Start the frontend
-CMD ["npm", "run", "start"]
+# Production stage with Nginx
+FROM nginx:stable-alpine
+COPY --from=build /app/build /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
