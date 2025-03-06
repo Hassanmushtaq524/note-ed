@@ -47,7 +47,11 @@ app.add_middleware(
 	allow_headers=["*"], 
 ) 
 
-app.add_middleware(SessionMiddleware, secret_key=SECRET_KEY) 
+app.add_middleware(SessionMiddleware, 
+                   secret_key=SECRET_KEY,
+                   same_site="none",
+    			   https_only=True,
+) 
 
 
 # Auth route
@@ -59,5 +63,4 @@ app.include_router(router=noterouter, prefix="/note")
 
 
 if __name__ == "__main__": 
-    
 	uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True, log_level="debug")
