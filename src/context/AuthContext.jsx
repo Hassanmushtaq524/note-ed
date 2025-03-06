@@ -19,7 +19,7 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         // Check if the user is already authenticated (e.g., in localStorage or session)
         const getSession = async () => {
-            const response = await fetch("http://localhost:8000/auth/checksession", { credentials: "include" });
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/auth/checksession`, { credentials: "include" });
             if (!response.ok) {
                 setUser(null);
                 return;
