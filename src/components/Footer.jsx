@@ -1,8 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-
+import { Link } from 'react-router-dom';
 function Footer() {
-  const navigate = useNavigate();
   return (
     <div id="footer" className="w-full h-fit bg-primary p-[24px]">
         {/* Container */}
@@ -10,8 +9,8 @@ function Footer() {
           {/* Legal */}
           <div className="size-fit flex flex-col gap-2">
             <h6 className="font-black text-white">LEGAL</h6>
-            <a className="font-regular text-white" onClick={() => navigate('/privacy')}>Privacy Policy</a>
-            <a className="font-regular text-white" onClick={() => navigate('/privacy#terms')}>Terms and Conditions</a>
+            <Link className="font-regular text-white" to={"/privacy"}>Privacy Policy</Link>
+            <Link className="font-regular text-white" to={"/privacy#terms"}>Terms and Conditions</Link>
           </div>
           {/* Info */}
           <div className="size-fit flex flex-col gap-2">
