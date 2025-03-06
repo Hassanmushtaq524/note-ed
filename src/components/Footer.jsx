@@ -10,8 +10,8 @@ function Footer() {
           {/* Legal */}
           <div className="size-fit flex flex-col gap-2">
             <h6 className="font-black text-white">LEGAL</h6>
-            <a className="font-regular text-white" href='/privacy'>Privacy Policy</a>
-            <a className="font-regular text-white" href='/privacy#terms'>Terms and Conditions</a>
+            <a className="font-regular text-white" onClick={() => navigate('/privacy')}>Privacy Policy</a>
+            <a className="font-regular text-white" onClick={() => navigate('/privacy#terms')}>Terms and Conditions</a>
           </div>
           {/* Info */}
           <div className="size-fit flex flex-col gap-2">
