@@ -32,12 +32,11 @@ if not FRONTEND_URL:
 if not SECRET_KEY:
     logging.warning("SECRET_KEY is not set.")
 
-
 app = FastAPI() 
 origins = [ 
 	FRONTEND_URL
 ]
- 
+
 
 app.add_middleware( 
 	CORSMiddleware, 
@@ -63,4 +62,8 @@ app.include_router(router=noterouter, prefix="/note")
 
 
 if __name__ == "__main__": 
-	uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True, log_level="debug")
+	uvicorn.run("main:app", 
+             	host="0.0.0.0", 
+                port=8000, 
+                reload=True, 
+                log_level="debug")

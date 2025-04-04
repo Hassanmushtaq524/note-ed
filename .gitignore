@@ -39,4 +39,6 @@ backend/*.csv
 backend/helpers/db_test.py
 backend/upload.py
 backend/alembic.ini
-
+*.pem
+node_modules/
+__pycache__
