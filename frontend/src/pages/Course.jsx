@@ -22,7 +22,7 @@ function Course({ mobileView, ...rest }) {
      * Fetch course and notes data using React Query
      */
     const fetchCourseData = async () => {
-        const url = `${process.env.REACT_APP_BACKEND_URL}/course/${id}?page=${page}&type=${types[selectedType].idText}`;
+        const url = `/api/course/${id}?page=${page}&type=${types[selectedType].idText}`;
         const response = await fetch(url);
         if (!response.ok) {
             throw new Error("Error fetching course information");

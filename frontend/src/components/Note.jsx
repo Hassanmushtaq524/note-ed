@@ -31,7 +31,7 @@ function Note({ _id, name, username, date, user_id, onDelete, ...rest }) {
     const handleDownload = async () => {
         try {
             setDownloading(true);
-            const url = `${process.env.REACT_APP_BACKEND_URL}/note/${_id}`;
+            const url = `/api/note/${_id}`;
             const response = await fetch(url, { method: "GET" });
 
             if (!response.ok) {
@@ -61,7 +61,7 @@ function Note({ _id, name, username, date, user_id, onDelete, ...rest }) {
     const handleDelete = async () => {
         try {
             setDeleting(true);
-            const url = `${process.env.REACT_APP_BACKEND_URL}/note/${_id}`;
+            const url = `/api/note/${_id}`;
             const response = await fetch(url, { method: "DELETE", credentials: "include" });
             if (!response.ok) {
                 throw new Error("Could not delete note")

@@ -28,14 +28,14 @@ const AddNote = ({ mobileView, courseId, noteTypes, onSuccess, ...rest }) => {
             const formData = new FormData();
             formData.append('file', fileRef.current.files[0]);
             const selectedIndex = typeRef.current.selectedIndex - 1;
-            const url = `${process.env.REACT_APP_BACKEND_URL}/course/${courseId}/${noteTypes[selectedIndex].idText}`;
+            const url = `/api/course/${courseId}/${noteTypes[selectedIndex].idText}`;
             
             const response = await fetch(url, {
                 method: 'POST',
                 credentials: "include", 
                 body: formData,
             });
-            console.log(response);
+
             if (!response.ok) {
                 throw Error(`Failed to upload file, daily limit possibly reached`);
             }

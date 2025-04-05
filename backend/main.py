@@ -13,9 +13,10 @@ from sqlalchemy.orm import Session
 from typing import Annotated
 import os
 import logging
-
+import ssl
 logging.basicConfig(level=logging.INFO)
 load_dotenv()
+
 
 
 GOOGLE_CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET")
@@ -62,8 +63,9 @@ app.include_router(router=noterouter, prefix="/note")
 
 
 if __name__ == "__main__": 
-	uvicorn.run("main:app", 
-             	host="0.0.0.0", 
+    uvicorn.run("main:app", 
+                host="0.0.0.0", 
                 port=8000, 
                 reload=True, 
                 log_level="debug")
+

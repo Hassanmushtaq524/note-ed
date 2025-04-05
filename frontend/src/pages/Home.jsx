@@ -18,7 +18,7 @@ function Home() {
      * Get all the course information from db
      */
     const getCourseOptions = async () => {
-        const url = `${process.env.REACT_APP_BACKEND_URL}/course/`;
+        const url = `/api/course/`;
         const response = await fetch(url, {
             method: "GET"
         });

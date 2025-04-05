@@ -19,7 +19,7 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         // Check if the user is already authenticated (e.g., in localStorage or session)
         const getSession = async () => {
-            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/auth/checksession`, { credentials: "include" });
+            const response = await fetch(`/api/auth/checksession`, { credentials: "include" });
             if (!response.ok) {
                 setUser(null);
                 return;
@@ -39,7 +39,7 @@ export const AuthProvider = ({ children }) => {
      * @param {*} credential The credential passed from google login 
      */
     const handleLoginSuccess = async (credential) => {
-        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/auth/login`, { 
+        const response = await fetch(`/api/auth/login`, { 
             credentials: 'include', 
             headers: {
                 "content-type": "application/json"
@@ -69,7 +69,7 @@ export const AuthProvider = ({ children }) => {
      * Logout the user
      */
     const handleLogout = async () => {
-        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/auth/logout`, { 
+        const response = await fetch(`/api/auth/logout`, { 
             credentials: 'include', 
             headers: {
                 "content-type": "application/json"
